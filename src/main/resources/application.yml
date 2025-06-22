@@ -1,0 +1,10 @@
+spring:
+    application:
+        name: Nexum's Profile
+    profiles:
+        active: local
+
+app:
+    name: Microservicio de Perfil
+    version: 0.0.1
+    description: "Microservicio de Perfil de Nexum, para administrar la información de los egresados"
