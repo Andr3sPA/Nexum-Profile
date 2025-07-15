@@ -106,4 +106,9 @@ public class UserController {
     public ResponseEntity<UserResponse> deleteById(@PathVariable UUID id) {
         return ResponseEntity.ok(userHandler.deleteById(id));
     }
+
+    @GetMapping("/authenticated")
+    public ResponseEntity<UserResponse> findCurrentUser() {
+        return ResponseEntity.ok(userHandler.findAuthenticatedUser());
+    }
 }

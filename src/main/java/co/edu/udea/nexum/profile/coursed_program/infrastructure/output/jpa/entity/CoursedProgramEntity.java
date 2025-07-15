@@ -5,6 +5,8 @@ import co.edu.udea.nexum.profile.user.infrastructure.output.jpa.entity.UserEntit
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -20,6 +22,7 @@ import lombok.*;
         }
 )
 public class CoursedProgramEntity implements NexumEntity<Long> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_coursed_program_id")
@@ -29,6 +32,34 @@ public class CoursedProgramEntity implements NexumEntity<Long> {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
 
+    @Column(name = "graduation_year", nullable = false)
+    private Integer graduationYear;
+
     @Column(name = "program_version_id", nullable = false)
     private Long programVersionId;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "user_coursed_program_strengths",
+            joinColumns = @JoinColumn(name = "user_coursed_program_id")
+    )
+    @Column(name = "strength")
+    private List<String> strengths;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "user_coursed_program_weaknesses",
+            joinColumns = @JoinColumn(name = "user_coursed_program_id")
+    )
+    @Column(name = "weakness")
+    private List<String> weaknesses;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "user_coursed_program_improvement_suggestions",
+            joinColumns = @JoinColumn(name = "user_coursed_program_id")
+    )
+    @Column(name = "suggestion")
+    private List<String> improvementSuggestions;
 }
+

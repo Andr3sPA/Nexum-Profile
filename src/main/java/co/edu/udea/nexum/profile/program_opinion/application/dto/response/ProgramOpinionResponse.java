@@ -1,7 +1,6 @@
 package co.edu.udea.nexum.profile.program_opinion.application.dto.response;
 
 import co.edu.udea.nexum.profile.common.application.dto.response.BaseResponse;
-import co.edu.udea.nexum.profile.coursed_program.domain.model.CoursedProgram;
 import lombok.Builder;
 import lombok.Data;
 

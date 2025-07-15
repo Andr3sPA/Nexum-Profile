@@ -18,7 +18,7 @@ public class FamilyInformation implements Model<Long>, AuditableModel {
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdate;
 
-    public FamilyInformation(FamiliyInformationBuilder builder) {
+    public FamilyInformation(FamilyInformationBuilder builder) {
        this.id = builder.id;
        this.user = builder.user;
        this.maritalState = builder.maritalState;
@@ -81,7 +81,11 @@ public class FamilyInformation implements Model<Long>, AuditableModel {
         this.lastUpdate = lastUpdate;
     }
 
-    public static final class FamiliyInformationBuilder implements BaseBuilder<FamilyInformation> {
+    public static FamilyInformationBuilder builder() {
+        return new FamilyInformationBuilder();
+    }
+
+    public static final class FamilyInformationBuilder implements BaseBuilder<FamilyInformation> {
         private Long id;
         private User user;
         private MaritalState maritalState;
@@ -89,32 +93,32 @@ public class FamilyInformation implements Model<Long>, AuditableModel {
         private LocalDateTime creationDate;
         private LocalDateTime lastUpdate;
 
-        public FamiliyInformationBuilder id(Long id) {
+        public FamilyInformationBuilder id(Long id) {
             this.id = id;
             return this;
         }
 
-        public FamiliyInformationBuilder user(User user) {
+        public FamilyInformationBuilder user(User user) {
             this.user = user;
             return this;
         }
 
-        public FamiliyInformationBuilder maritalState(MaritalState maritalState) {
+        public FamilyInformationBuilder maritalState(MaritalState maritalState) {
             this.maritalState = maritalState;
             return this;
         }
 
-        public FamiliyInformationBuilder childNumber(Short childNumber) {
+        public FamilyInformationBuilder childNumber(Short childNumber) {
             this.childNumber = childNumber;
             return this;
         }
 
-        public FamiliyInformationBuilder creationDate(LocalDateTime creationDate) {
+        public FamilyInformationBuilder creationDate(LocalDateTime creationDate) {
             this.creationDate = creationDate;
             return this;
         }
 
-        public FamiliyInformationBuilder lastUpdate(LocalDateTime lastUpdate) {
+        public FamilyInformationBuilder lastUpdate(LocalDateTime lastUpdate) {
             this.lastUpdate = lastUpdate;
             return this;
         }

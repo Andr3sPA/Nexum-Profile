@@ -37,4 +37,11 @@ public class UserHandlerImpl extends BaseCrudHandlerImpl<UUID, User, UserRespons
     protected BaseRequestMapper<User, UserRequest> getRequestMapper() {
         return userRequestMapper;
     }
+
+    @Override
+    public UserResponse findAuthenticatedUser() {
+        return userResponseMapper.toResponse(
+                userServicePort.findAuthenticatedUser()
+        );
+    }
 }

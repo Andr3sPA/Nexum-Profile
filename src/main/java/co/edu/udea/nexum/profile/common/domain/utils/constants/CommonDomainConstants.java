@@ -24,4 +24,5 @@ public class CommonDomainConstants {
     public static final Boolean DEFAULT_ASCENDING = true;
 
     public static final int OUTDATED_THRESHOLD = 30*6;
+
 }

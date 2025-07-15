@@ -1,5 +1,6 @@
 package co.edu.udea.nexum.profile.user.infrastructure.output.jpa.entity;
 
+import co.edu.udea.nexum.profile.common.infrastructure.output.jpa.entity.AuditableNexumEntity;
 import co.edu.udea.nexum.profile.common.infrastructure.output.jpa.entity.NexumEntity;
 import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
 import jakarta.persistence.*;
@@ -19,10 +20,9 @@ import java.util.UUID;
         name = "users",
         indexes = {
                 @Index(name = "idx_user_identity_document", columnList = "identity_document"),
-                @Index(name = "idx_user_email", columnList = "email"),
         }
 )
-public class UserEntity implements NexumEntity<UUID> {
+public class UserEntity implements NexumEntity<UUID>, AuditableNexumEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
@@ -49,7 +49,7 @@ public class UserEntity implements NexumEntity<UUID> {
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Column(name = "institutional_email", nullable = false)
+    @Column(name = "institutional_email")
     private String institutionalEmail;
 
     @Column(name = "birthdate", nullable = false)
@@ -60,5 +60,4 @@ public class UserEntity implements NexumEntity<UUID> {
 
     @Column(name = "last_update", nullable = false)
     private LocalDateTime lastUpdate;
-
 }

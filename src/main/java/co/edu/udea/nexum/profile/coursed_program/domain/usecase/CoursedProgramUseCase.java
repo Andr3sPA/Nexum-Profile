@@ -11,6 +11,8 @@ import co.edu.udea.nexum.profile.coursed_program.domain.spi.ProgramVersionPersis
 import co.edu.udea.nexum.profile.user.domain.model.User;
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
 
+import static co.edu.udea.nexum.profile.common.domain.utils.functions.CommonHelpers.replaceIfNotNull;
+
 public class CoursedProgramUseCase
         extends BaseCrudUseCase<Long, CoursedProgram>
         implements CoursedProgramServicePort {
@@ -29,22 +31,6 @@ public class CoursedProgramUseCase
     }
 
     @Override
-    public CoursedProgram save(CoursedProgram coursedProgram) {
-        ProgramVersion programVersion = programVersionPersistencePort.findById(coursedProgram.getProgramVersion().getId());
-        CoursedProgram saved = super.save(coursedProgram);
-        saved.setProgramVersion(programVersion);
-        return saved;
-    }
-
-    @Override
-    public CoursedProgram updateById(Long id, CoursedProgram coursedProgram) {
-        ProgramVersion programVersion = programVersionPersistencePort.findById(coursedProgram.getProgramVersion().getId());
-        CoursedProgram updated = super.updateById(id, coursedProgram);
-        updated.setProgramVersion(programVersion);
-        return updated;
-    }
-
-    @Override
     protected BaseCrudPersistencePort<Long, CoursedProgram> getPersistencePort() {
         return coursedProgramPersistencePort;
     }
@@ -55,10 +41,26 @@ public class CoursedProgramUseCase
     }
 
     @Override
+    protected CoursedProgram loadAssociations(CoursedProgram coursedProgram) {
+        ProgramVersion programVersion = programVersionPersistencePort.findById(coursedProgram.getProgramVersion().getId());
+        coursedProgram.setProgramVersion(programVersion);
+        return coursedProgram;
+    }
+
+    @Override
+    protected CoursedProgram patch(CoursedProgram original, CoursedProgram patch) {
+        replaceIfNotNull(patch.getProgramVersion(), original::setProgramVersion);
+        replaceIfNotNull(patch.getGraduationYear(), original::setGraduationYear);
+        replaceIfNotNull(patch.getStrengths(), original::setStrengths);
+        replaceIfNotNull(patch.getWeaknesses(), original::setWeaknesses);
+        replaceIfNotNull(patch.getImprovementSuggestions(), original::setImprovementSuggestions);
+        return original;
+    }
+
+    @Override
     protected void validateEntity(Long currentId, CoursedProgram coursedProgram) {
         if (!userPersistencePort.existsById(coursedProgram.getUser().getId())) {
             throw new EntityNotFoundException(User.class.getSimpleName());
         }
     }
-
 }

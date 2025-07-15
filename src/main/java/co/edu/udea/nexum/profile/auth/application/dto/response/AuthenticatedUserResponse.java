@@ -12,5 +12,6 @@ import java.util.UUID;
 public class AuthenticatedUserResponse implements BaseResponse {
     private UUID id;
     private RoleName role;
+    private String email;
     private String token;
 }

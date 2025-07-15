@@ -15,13 +15,11 @@ public class ProgramOpinionBeanConfiguration {
     @Bean
     public ProgramOpinionServicePort programOpinionServicePort(
             ProgramOpinionPersistencePort programOpinionPersistencePort,
-            CoursedProgramPersistencePort coursedProgramPersistencePort,
-            AuthenticationSecurityPort authenticationSecurityPort
+            CoursedProgramPersistencePort coursedProgramPersistencePort
     ) {
         return new ProgramOpinionUseCase(
                 programOpinionPersistencePort,
-                coursedProgramPersistencePort,
-                authenticationSecurityPort
+                coursedProgramPersistencePort
         );
     }
 }

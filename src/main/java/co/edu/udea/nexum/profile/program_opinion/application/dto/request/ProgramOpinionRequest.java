@@ -1,7 +1,9 @@
 package co.edu.udea.nexum.profile.program_opinion.application.dto.request;
 
 import co.edu.udea.nexum.profile.common.application.dto.request.BaseRequest;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;

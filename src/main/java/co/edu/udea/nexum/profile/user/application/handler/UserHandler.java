@@ -7,4 +7,5 @@ import co.edu.udea.nexum.profile.user.application.dto.response.UserResponse;
 import java.util.UUID;
 
 public interface UserHandler extends BaseCrudHandler<UUID, UserResponse, UserRequest> {
+    UserResponse findAuthenticatedUser();
 }

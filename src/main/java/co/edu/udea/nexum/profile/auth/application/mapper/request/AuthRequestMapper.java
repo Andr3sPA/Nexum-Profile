@@ -5,6 +5,8 @@ import co.edu.udea.nexum.profile.auth.domain.model.Auth;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.user.domain.model.IdentityDocumentType;
 import co.edu.udea.nexum.profile.user.domain.model.User;
+import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
+import co.edu.udea.nexum.profile.user.domain.utils.functions.GenderHelper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -19,7 +21,13 @@ public interface AuthRequestMapper {
                 .id(id)
                 .build();
     }
+
+    default Gender mapStringToGender(String name) {
+        return GenderHelper.fromName(name);
+    }
+
     @Mapping(source = "idIdentityDocumentType", target = "identityDocumentType")
     User toDomainUser(UserRegisterRequest request);
     Auth toDomainAuth(UserRegisterRequest request);
+
 }

@@ -1,0 +1,28 @@
+services:
+    profile-service:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: profile-service
+        ports:
+            - "8100:8100"
+        environment:
+            SPRING_PROFILES_ACTIVE: dev
+            DB_HOST: 192.168.1.57
+            DB_PORT: 5432
+            DB_NAME: nexum
+            DB_USER: nexum_user
+            DB_PASSWORD: password
+            DB_SCHEMA: profile
+            DB_DDL: update
+            APP_PATH: /nexum
+            APP_PORT: 8100
+            JTW_TOKEN: 0a07c69f2688f2dd628dd606378c848bed9dd8472f157604f36e18a0f84ef787
+            JWT_EXPIRATION_TIME: 86400000
+            NEXUM_CATALOG_URL: http://host.docker.internal:8110/nexum/v1
+
+        networks:
+            - nexum-net
+
+networks:
+    nexum-net:

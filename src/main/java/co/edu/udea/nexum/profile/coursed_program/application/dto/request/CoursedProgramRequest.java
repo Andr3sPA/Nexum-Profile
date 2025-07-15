@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 import static co.edu.udea.nexum.profile.coursed_program.application.utils.constants.CoursedProgramConstants.*;
@@ -23,4 +24,8 @@ public class CoursedProgramRequest implements BaseRequest {
     @Positive(message = GRADUATION_YEAR_FIELD_POSITIVE_MESSAGE)
     @NotNull(message = GRADUATION_YEAR_FIELD_NOT_NULL_MESSAGE)
     private Integer graduationYear;
+
+    private List<String> strengths;
+    private List<String> weaknesses;
+    private List<String> improvementSuggestions;
 }

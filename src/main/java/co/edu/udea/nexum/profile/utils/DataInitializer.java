@@ -27,7 +27,7 @@ public class DataInitializer {
             log.info(INITIALIZING_DATA);
 
             Arrays.stream(RoleName.values()).forEach(name -> {
-                log.info(CREATING_IDENTITY_DOCUMENT_TYPE_LOG_MESSAGE, name);
+                log.info(CREATING_ROLE_LOG_MESSAGE, name);
                 roleRepository.save(RoleEntity.builder()
                         .name(name)
                         .build());
@@ -41,5 +41,5 @@ public class DataInitializer {
     }
 
     public static final String INITIALIZING_DATA = "Initializing data ...";
-    public static final String CREATING_IDENTITY_DOCUMENT_TYPE_LOG_MESSAGE = "Creating identity document type {}";
+    public static final String CREATING_ROLE_LOG_MESSAGE = "Creating role type {}";
 }

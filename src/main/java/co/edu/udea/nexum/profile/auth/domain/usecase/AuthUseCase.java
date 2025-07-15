@@ -78,12 +78,15 @@ public class AuthUseCase implements AuthServicePort {
     private User register(Auth auth, User user) {
         IdentityDocumentType type = identityDocumentTypePersistencePort.findById(user.getIdentityDocumentType().getId());
         validateUser(user);
-        user.setCreationDate(LocalDateTime.now());
-        user.setLastUpdate(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        user.setCreationDate(now);
+        user.setLastUpdate(now);
         User savedUser = userPersistencePort.save(user);
         savedUser.setIdentityDocumentType(type);
 
         auth.setUser(savedUser);
+        auth.setCreationDate(now);
+        auth.setLastUpdate(now);
         validateAuth(auth);
         authPersistencePort.save(auth);
 

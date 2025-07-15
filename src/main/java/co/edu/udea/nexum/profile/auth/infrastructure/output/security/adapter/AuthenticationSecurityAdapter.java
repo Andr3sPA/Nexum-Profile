@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.SecurityConstants.CLAIMS_ROLE_KEY;
-import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.SecurityFunctions.buildAuthenticatedUser;
+import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.constants.SecurityConstants.CLAIMS_ROLE_KEY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.functions.SecurityFunctions.buildAuthenticatedUser;
 
 @Component
 @RequiredArgsConstructor
@@ -40,6 +40,7 @@ public class AuthenticationSecurityAdapter implements AuthenticationSecurityPort
         return AuthenticatedUser.builder()
                 .id(authorizationData.getId())
                 .role(auth.getRole().getName())
+                .email(auth.getEmail())
                 .token(token)
                 .build();
     }

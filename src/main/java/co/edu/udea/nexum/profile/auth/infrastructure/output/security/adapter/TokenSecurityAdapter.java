@@ -8,9 +8,7 @@ import co.edu.udea.nexum.profile.common.domain.exception.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.SecurityFunctions.buildAuthenticatedUser;
+import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.functions.SecurityFunctions.buildAuthenticatedUser;
 
 @Component
 @RequiredArgsConstructor

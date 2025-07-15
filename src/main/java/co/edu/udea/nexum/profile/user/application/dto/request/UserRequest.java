@@ -5,11 +5,9 @@ import co.edu.udea.nexum.profile.common.application.utils.constraints.AllowedVal
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
 
 import java.time.LocalDate;
 
-import static co.edu.udea.nexum.profile.auth.application.utils.constants.AuthAppConstants.AUTH_EMAIL_FIELD_INVALID_FORMAT_MESSAGE;
 import static co.edu.udea.nexum.profile.user.application.utils.constants.UserAppConstants.*;
 import static co.edu.udea.nexum.profile.user.domain.utils.constants.UserConstants.*;
 

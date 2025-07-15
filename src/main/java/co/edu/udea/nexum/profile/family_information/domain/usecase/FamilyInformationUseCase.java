@@ -1,46 +1,36 @@
 package co.edu.udea.nexum.profile.family_information.domain.usecase;
 
-import co.edu.udea.nexum.profile.auth.domain.model.AuthenticatedUser;
 import co.edu.udea.nexum.profile.auth.domain.spi.security.AuthenticationSecurityPort;
-import co.edu.udea.nexum.profile.common.domain.exception.ForbiddenResourceAccessException;
 import co.edu.udea.nexum.profile.common.domain.spi.BaseCrudPersistencePort;
-import co.edu.udea.nexum.profile.common.domain.usecase.BaseCrudUseCase;
+import co.edu.udea.nexum.profile.common.domain.usecase.AuditableCrudUseCase;
 import co.edu.udea.nexum.profile.family_information.domain.api.FamilyInformationServicePort;
 import co.edu.udea.nexum.profile.family_information.domain.model.FamilyInformation;
 import co.edu.udea.nexum.profile.family_information.domain.spi.FamilyInformationPersistencePort;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static co.edu.udea.nexum.profile.common.domain.utils.constants.CommonDomainConstants.OUTDATED_THRESHOLD;
+import static co.edu.udea.nexum.profile.common.domain.utils.functions.CommonHelpers.replaceIfNotNull;
 import static co.edu.udea.nexum.profile.common.domain.utils.functions.CommonHelpers.updateOrCreateNewIfOutdated;
+import static co.edu.udea.nexum.profile.security.domain.utils.helpers.SecurityHelper.validateCommonUserPermission;
 
-public class FamilyInformationUseCase extends BaseCrudUseCase<Long, FamilyInformation> implements FamilyInformationServicePort {
+public class FamilyInformationUseCase extends AuditableCrudUseCase<Long, FamilyInformation> implements FamilyInformationServicePort {
     private final FamilyInformationPersistencePort familyInformationPersistencePort;
-    private final AuthenticationSecurityPort authenticationSecurityPort;
 
     public FamilyInformationUseCase(
-            FamilyInformationPersistencePort familyInformationPersistencePort,
-            AuthenticationSecurityPort authenticationSecurityPort
+            FamilyInformationPersistencePort familyInformationPersistencePort
     ) {
         this.familyInformationPersistencePort = familyInformationPersistencePort;
-        this.authenticationSecurityPort = authenticationSecurityPort;
     }
 
     @Override
-    public FamilyInformation save(FamilyInformation model) {
-        model.setCreationDate(LocalDateTime.now());
-        model.setLastUpdate(LocalDateTime.now());
-        return super.save(model);
-    }
-
-    @Override
-    public FamilyInformation updateById(Long id, FamilyInformation model) {
-        validateEntity(id, model);
-        FamilyInformation existingFamilyInformation = super.findById(id);
+    public FamilyInformation updateById(Long id, FamilyInformation familyInformation) {
+        validateEntity(id, familyInformation);
+        FamilyInformation patched = patch(super.findById(id), familyInformation);
 
         return updateOrCreateNewIfOutdated(
-                id, model, existingFamilyInformation,
+                patched,
                 Duration.ofDays(OUTDATED_THRESHOLD),
                 familyInformationPersistencePort::save,
                 familyInformationPersistencePort::update
@@ -58,8 +48,21 @@ public class FamilyInformationUseCase extends BaseCrudUseCase<Long, FamilyInform
     }
 
     @Override
-    protected void validateEntity(Long currentId, FamilyInformation model) {
-        AuthenticatedUser user = authenticationSecurityPort.getAuthenticatedUser();
-        if (!model.getUser().getId().equals(user.getId())) throw new ForbiddenResourceAccessException();
+    protected FamilyInformation patch(FamilyInformation original, FamilyInformation patch) {
+        replaceIfNotNull(patch.getUser(), original::setUser);
+        replaceIfNotNull(patch.getMaritalState(), original::setMaritalState);
+        replaceIfNotNull(patch.getChildNumber(), original::setChildNumber);
+        return original;
+    }
+
+    @Override
+    protected void validateEntity(Long currentId, FamilyInformation familyInformation) {
+        validateCommonUserPermission(familyInformation.getUser().getId());
+    }
+
+    @Override
+    public FamilyInformation findLastByUserId(UUID userId) {
+        validateCommonUserPermission(userId);
+        return familyInformationPersistencePort.findLastByUserId(userId);
     }
 }

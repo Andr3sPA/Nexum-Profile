@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class CoursedProgramJpaAdapter extends BaseCrudAdapterImpl<Long, CoursedProgram, CoursedProgramEntity> implements CoursedProgramPersistencePort {
@@ -25,5 +28,12 @@ public class CoursedProgramJpaAdapter extends BaseCrudAdapterImpl<Long, CoursedP
     @Override
     protected CrudRepository<CoursedProgramEntity, Long> getRepository() {
         return coursedProgramRepository;
+    }
+
+    @Override
+    public List<CoursedProgram> findAllByUserId(UUID id) {
+        return coursedProgramEntityMapper.toDomains(
+                coursedProgramRepository.findAllByUser_Id(id)
+        );
     }
 }

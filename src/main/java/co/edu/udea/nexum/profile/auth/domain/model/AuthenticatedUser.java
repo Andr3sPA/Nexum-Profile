@@ -9,6 +9,7 @@ import java.util.UUID;
 @Generated
 public class AuthenticatedUser {
     private UUID id;
+    private String email;
     private RoleName role;
     private String token;
 
@@ -17,6 +18,7 @@ public class AuthenticatedUser {
         this.id = builder.id;
         this.role = builder.role;
         this.token = builder.token;
+        this.email = builder.email;
     }
 
     public UUID getId() {
@@ -35,6 +37,14 @@ public class AuthenticatedUser {
         this.role = role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getToken() {
         return token;
     }
@@ -48,6 +58,7 @@ public class AuthenticatedUser {
     }
 
     public static class AuthenticatedUserBuilder implements BaseBuilder<AuthenticatedUser> {
+        private String email;
         private UUID id;
         private RoleName role;
         private String token;
@@ -64,6 +75,11 @@ public class AuthenticatedUser {
 
         public AuthenticatedUserBuilder token(String token) {
             this.token = token;
+            return this;
+        }
+
+        public AuthenticatedUserBuilder email(String email) {
+            this.email = email;
             return this;
         }
 
