@@ -35,4 +35,23 @@ public class AuthRestConstants {
     public static final String SWAGGER_FIND_USER_BY_TOKEN_UNAUTHORIZED = "El token no es válido";
     public static final String GET_AUTHENTICATED_USER_SUMMARY = "Retorna el usuario autenticado actual";
     public static final String GET_AUTHENTICATED_USER_SUCCESSFULLY_MESSAGE = "El usuario ha sido autenticado";
+
+
+    public static final String ACCOUNT_CONTROLLER_PATH = "/v1/accounts";
+    public static final String ACCOUNT_CONTROLLER_NAME = "Cuentas";
+    public static final String ACCOUNT_CONTROLLER_DESCRIPTION = "Operaciones relacionadas con las credenciales de autenticación";
+
+    public static final String SWAGGER_FIND_AUTH_BY_ID_SUMMARY = "Buscar credencial de autenticación por ID";
+    public static final String SWAGGER_FIND_AUTH_SUCCESSFULLY = "La credencial fue encontrada correctamente";
+    public static final String SWAGGER_FIND_AUTH_NOT_FOUND = "La credencial no fue encontrada";
+
+    public static final String SWAGGER_UPDATE_AUTH_BY_ID_SUMMARY = "Actualizar credencial de autenticación por ID";
+    public static final String SWAGGER_UPDATE_AUTH_SUCCESSFULLY = "La credencial fue actualizada correctamente";
+    public static final String SWAGGER_UPDATE_AUTH_NOT_FOUND = "La credencial no fue encontrada";
+    public static final String SWAGGER_UPDATE_AUTH_FORBIDDEN = "No tienes permiso para actualizar esta credencial";
+
+    public static final String SWAGGER_FIND_ALL_AUTH_FILTERED_SUMMARY = "Buscar credenciales con filtros";
+    public static final String SWAGGER_FIND_ALL_AUTH_SUCCESSFULLY = "Las credenciales fueron encontradas correctamente";
+
+
 }

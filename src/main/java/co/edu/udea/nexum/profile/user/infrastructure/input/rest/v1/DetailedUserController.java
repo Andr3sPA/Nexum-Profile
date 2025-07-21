@@ -2,7 +2,7 @@ package co.edu.udea.nexum.profile.user.infrastructure.input.rest.v1;
 
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.infrastructure.configuration.advisor.dto.ExceptionResponse;
-import co.edu.udea.nexum.profile.user.application.dto.response.DetailedUserResponse;
+import co.edu.udea.nexum.profile.user.application.dto.response.detailed.DetailedUserResponse;
 import co.edu.udea.nexum.profile.user.application.handler.DetailedUserHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,13 +12,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
 import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.CommonRestConstants.*;
-import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.CommonRestConstants.SWAGGER_CODE_NOT_FOUND;
-import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.CommonRestConstants.SWAGGER_CODE_OK;
 import static co.edu.udea.nexum.profile.user.infrastructure.utils.constants.DetailedUserRestConstants.*;
 
 @Generated

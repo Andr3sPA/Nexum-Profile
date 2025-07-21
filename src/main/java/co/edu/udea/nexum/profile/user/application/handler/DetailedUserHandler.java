@@ -1,6 +1,6 @@
 package co.edu.udea.nexum.profile.user.application.handler;
 
-import co.edu.udea.nexum.profile.user.application.dto.response.DetailedUserResponse;
+import co.edu.udea.nexum.profile.user.application.dto.response.detailed.DetailedUserResponse;
 
 import java.util.UUID;
 

@@ -4,8 +4,10 @@ package co.edu.udea.nexum.profile.user.application.mapper.request;
 import co.edu.udea.nexum.profile.common.application.mapper.BaseRequestMapper;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.user.application.dto.request.UserRequest;
+import co.edu.udea.nexum.profile.user.application.dto.request.filter.UserFilterRequest;
 import co.edu.udea.nexum.profile.user.domain.model.IdentityDocumentType;
 import co.edu.udea.nexum.profile.user.domain.model.User;
+import co.edu.udea.nexum.profile.user.domain.model.filter.UserFilter;
 import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
 import co.edu.udea.nexum.profile.user.domain.utils.functions.GenderHelper;
 import org.mapstruct.Mapper;
@@ -17,7 +19,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserRequestMapper extends BaseRequestMapper<User, UserRequest> {
-    default IdentityDocumentType longToidentityDocumentType(Long id){
+    default IdentityDocumentType longToidentityDocumentType(Long id) {
         return IdentityDocumentType.builder()
                 .id(id)
                 .build();
@@ -30,4 +32,6 @@ public interface UserRequestMapper extends BaseRequestMapper<User, UserRequest> 
     @Override
     @Mapping(source = "idIdentityDocumentType", target = "identityDocumentType")
     User toDomain(UserRequest entity);
+
+    UserFilter toDomain(UserFilterRequest request);
 }

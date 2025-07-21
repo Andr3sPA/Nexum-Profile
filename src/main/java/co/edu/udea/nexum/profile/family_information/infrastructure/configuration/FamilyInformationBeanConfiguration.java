@@ -1,6 +1,5 @@
 package co.edu.udea.nexum.profile.family_information.infrastructure.configuration;
 
-import co.edu.udea.nexum.profile.auth.domain.spi.security.AuthenticationSecurityPort;
 import co.edu.udea.nexum.profile.family_information.domain.api.FamilyInformationServicePort;
 import co.edu.udea.nexum.profile.family_information.domain.spi.FamilyInformationPersistencePort;
 import co.edu.udea.nexum.profile.family_information.domain.usecase.FamilyInformationUseCase;

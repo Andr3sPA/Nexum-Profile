@@ -2,15 +2,13 @@ package co.edu.udea.nexum.profile.security.domain.utils.helpers;
 
 import co.edu.udea.nexum.profile.auth.domain.model.Auth;
 import co.edu.udea.nexum.profile.auth.domain.model.AuthenticatedUser;
+import co.edu.udea.nexum.profile.auth.domain.spi.persistence.AuthPersistencePort;
 import co.edu.udea.nexum.profile.auth.domain.spi.security.AuthenticationSecurityPort;
 import co.edu.udea.nexum.profile.common.domain.exception.ForbiddenResourceAccessException;
 
 import java.util.UUID;
 
-import static co.edu.udea.nexum.profile.security.domain.utils.constants.SecurityConstants.ALLOWED_ROLES;
 import static co.edu.udea.nexum.profile.security.domain.utils.constants.SecurityConstants.*;
-
-import co.edu.udea.nexum.profile.auth.domain.spi.persistence.AuthPersistencePort;
 
 public class SecurityHelper {
     private SecurityHelper() {

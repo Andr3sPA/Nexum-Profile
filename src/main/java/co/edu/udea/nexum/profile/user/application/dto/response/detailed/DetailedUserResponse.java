@@ -1,9 +1,10 @@
-package co.edu.udea.nexum.profile.user.application.dto.response;
+package co.edu.udea.nexum.profile.user.application.dto.response.detailed;
 
 import co.edu.udea.nexum.profile.common.application.dto.response.BaseResponse;
-import co.edu.udea.nexum.profile.user.domain.model.aggregate.DetailedInnovationProcess;
+import co.edu.udea.nexum.profile.user.application.dto.response.IdentityDocumentTypeResponse;
 import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -4,7 +4,7 @@ import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.domain.utils.constants.CommonDomainConstants;
 
 @Generated
-public class EntityAlreadyExistsException extends RuntimeException {
+public class EntityAlreadyExistsException extends NexumException {
     public EntityAlreadyExistsException(String message) {
         super(message);
     }

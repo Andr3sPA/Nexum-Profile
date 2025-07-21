@@ -1,6 +1,10 @@
 package co.edu.udea.nexum.profile.user.domain.utils.constants;
 
+import co.edu.udea.nexum.profile.auth.domain.model.Auth;
+import co.edu.udea.nexum.profile.auth.domain.model.Role;
+import co.edu.udea.nexum.profile.auth.domain.utils.enums.RoleName;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
+import co.edu.udea.nexum.profile.contact_information.domain.model.ContactInformation;
 
 @Generated
 public class UserConstants {
@@ -36,6 +40,8 @@ public class UserConstants {
     public static final String IDENTITY_DOCUMENT_ATTRIBUTE = "identityDocument";
     public static final String INSTITUTIONAL_EMAIL_REGEX = "^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+@udea\\.edu\\.co$";
 
+    public static final ContactInformation DEFAULT_NULL_CONTACT_INFORMATION = ContactInformation.builder().build();
+    public static final Auth DEFAULT_NULL_AUTH = Auth.builder().role(Role.builder().name(RoleName.GRADUATE).build()).build();
 
     private UserConstants() {
         throw new IllegalStateException("Utility class");

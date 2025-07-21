@@ -3,6 +3,7 @@ package co.edu.udea.nexum.profile.common.infrastructure.configuration.advisor;
 
 import co.edu.udea.nexum.profile.common.domain.exception.EntityAlreadyExistsException;
 import co.edu.udea.nexum.profile.common.domain.exception.EntityNotFoundException;
+import co.edu.udea.nexum.profile.common.domain.exception.NexumException;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.infrastructure.configuration.advisor.dto.ExceptionResponse;
 import co.edu.udea.nexum.profile.common.infrastructure.configuration.advisor.dto.ValidationExceptionResponse;
@@ -19,6 +20,11 @@ import java.time.LocalDateTime;
 @Generated
 @ControllerAdvice
 public class BasicExceptionAdvisor {
+
+    @ExceptionHandler(NexumException.class)
+    public ResponseEntity<ExceptionResponse> handleNexumException(NexumException e) {
+        return ExceptionResponseBuilder.buildResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleEntityNotFound(EntityNotFoundException e){

@@ -3,7 +3,6 @@ package co.edu.udea.nexum.profile.academic_education.domain.usecase;
 import co.edu.udea.nexum.profile.academic_education.domain.api.AcademicEducationServicePort;
 import co.edu.udea.nexum.profile.academic_education.domain.model.AcademicEducation;
 import co.edu.udea.nexum.profile.academic_education.domain.spi.AcademicEducationPersistencePort;
-import co.edu.udea.nexum.profile.auth.domain.spi.security.AuthenticationSecurityPort;
 import co.edu.udea.nexum.profile.common.domain.exception.EntityNotFoundException;
 import co.edu.udea.nexum.profile.common.domain.spi.BaseCrudPersistencePort;
 import co.edu.udea.nexum.profile.common.domain.usecase.AuditableCrudUseCase;

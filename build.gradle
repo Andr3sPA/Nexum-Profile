@@ -65,6 +65,10 @@ dependencies {
 
 	// Reports
 	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '7.0.3'
+	implementation group: 'net.sf.jasperreports', name: 'jasperreports-pdf', version: '7.0.3'
+	implementation 'net.sf.jasperreports:jasperreports-fonts:7.0.3'
+	implementation 'commons-logging:commons-logging:1.2'
+
 
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

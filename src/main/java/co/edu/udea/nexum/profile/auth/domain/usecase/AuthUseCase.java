@@ -77,8 +77,24 @@ public class AuthUseCase implements AuthServicePort {
 
     private User register(Auth auth, User user) {
         IdentityDocumentType type = identityDocumentTypePersistencePort.findById(user.getIdentityDocumentType().getId());
-        validateUser(user);
         LocalDateTime now = LocalDateTime.now();
+
+        User existingUser = userPersistencePort.findByIdentityDocument(user.getIdentityDocument());
+
+        if (existingUser != null) return registerAuthForExistingUser(auth, existingUser, type, now);
+        return registerNewUserAndAuth(auth, user, type, now);
+    }
+
+
+    private void validateAuth(Auth auth) {
+        Auth user = authPersistencePort.findByEmail(auth.getEmail());
+        if (user != null)
+            throw new EntityAlreadyExistsException(Auth.class.getSimpleName(), EMAIL_ATTRIBUTE, auth.getEmail());
+    }
+
+    private User registerNewUserAndAuth(Auth auth, User user, IdentityDocumentType type, LocalDateTime now) {
+        validateAuth(auth);
+
         user.setCreationDate(now);
         user.setLastUpdate(now);
         User savedUser = userPersistencePort.save(user);
@@ -87,20 +103,28 @@ public class AuthUseCase implements AuthServicePort {
         auth.setUser(savedUser);
         auth.setCreationDate(now);
         auth.setLastUpdate(now);
-        validateAuth(auth);
         authPersistencePort.save(auth);
 
         return savedUser;
     }
 
-    private void validateAuth(Auth auth) {
-        Auth user = authPersistencePort.findByEmail(auth.getEmail());
-        if (user != null)
-            throw new EntityAlreadyExistsException(Auth.class.getSimpleName(), EMAIL_ATTRIBUTE, auth.getEmail());
+    private User registerAuthForExistingUser(Auth auth, User existingUser, IdentityDocumentType type, LocalDateTime now) {
+        if (authPersistencePort.findByUserId(existingUser.getId()) != null) throw new EntityAlreadyExistsException(
+                User.class.getSimpleName(),
+                IDENTITY_DOCUMENT_ATTRIBUTE,
+                existingUser.getIdentityDocument()
+        );
+
+        validateAuth(auth);
+
+        existingUser.setIdentityDocumentType(type);
+        auth.setUser(existingUser);
+        auth.setCreationDate(now);
+        auth.setLastUpdate(now);
+        authPersistencePort.save(auth);
+
+        return existingUser;
     }
 
-    private void validateUser(User user) {
-        if (userPersistencePort.existsByIdentityDocument(user.getIdentityDocument()))
-            throw new EntityAlreadyExistsException(User.class.getSimpleName(), IDENTITY_DOCUMENT_ATTRIBUTE, user.getIdentityDocument());
-    }
+
 }

@@ -1,7 +1,5 @@
 package co.edu.udea.nexum.profile.job.infrastructure.output.jpa.repository;
 
-import aj.org.objectweb.asm.commons.Remapper;
-import co.edu.udea.nexum.profile.job.domain.model.Job;
 import co.edu.udea.nexum.profile.job.infrastructure.output.jpa.entity.JobEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

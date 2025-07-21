@@ -1,5 +1,6 @@
 package co.edu.udea.nexum.profile.auth.domain.model;
 
+import co.edu.udea.nexum.profile.common.domain.model.AuditableModel;
 import co.edu.udea.nexum.profile.common.domain.model.Model;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.domain.utils.contracts.BaseBuilder;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Generated
-public class Auth implements Model<UUID> {
+public class Auth implements Model<UUID>, AuditableModel {
     private UUID id;
     private User user;
     private Role role;
@@ -71,18 +72,22 @@ public class Auth implements Model<UUID> {
         this.password = password;
     }
 
+    @Override
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
+    @Override
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
+    @Override
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
+    @Override
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }

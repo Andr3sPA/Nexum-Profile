@@ -1,6 +1,6 @@
 package co.edu.udea.nexum.profile.user.application.handler.impl;
 
-import co.edu.udea.nexum.profile.user.application.dto.response.DetailedUserResponse;
+import co.edu.udea.nexum.profile.user.application.dto.response.detailed.DetailedUserResponse;
 import co.edu.udea.nexum.profile.user.application.handler.DetailedUserHandler;
 import co.edu.udea.nexum.profile.user.application.mapper.response.DetailedUserResponseMapper;
 import co.edu.udea.nexum.profile.user.domain.api.DetailedUserServicePort;

@@ -37,7 +37,7 @@ public class UserEntity implements NexumEntity<UUID>, AuditableNexumEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "middle_name", nullable = false)
+    @Column(name = "middle_name")
     private String middleName;
 
     @Column(name = "lastname", nullable = false)
@@ -48,9 +48,6 @@ public class UserEntity implements NexumEntity<UUID>, AuditableNexumEntity {
 
     @Column(name = "gender", nullable = false)
     private Gender gender;
-
-    @Column(name = "institutional_email")
-    private String institutionalEmail;
 
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;

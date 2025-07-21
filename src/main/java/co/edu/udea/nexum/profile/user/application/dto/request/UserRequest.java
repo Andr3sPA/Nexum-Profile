@@ -37,9 +37,6 @@ public class UserRequest implements BaseRequest {
     @AllowedValues( values = {MALE_NAME, FEMALE_NAME, NON_BINARY_NAME, OTHER_NAME}, message = GENDER_OUT_OF_RANGE_MESSAGE)
     private String gender;
 
-    @Pattern(regexp = INSTITUTIONAL_EMAIL_REGEX, message = INSTITUTIONAL_EMAIL_FIELD_INVALID_FORMAT_MESSAGE)
-    private String institutionalEmail;
-
     @NotNull(message = BIRTHDATE_FIELD_NOT_NULL_MESSAGE)
     @Past(message = BIRTHDATE_MUST_BE_PAST_MESSAGE)
     private LocalDate birthdate;

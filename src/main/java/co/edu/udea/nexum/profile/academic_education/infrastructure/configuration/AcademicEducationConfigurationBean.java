@@ -3,7 +3,6 @@ package co.edu.udea.nexum.profile.academic_education.infrastructure.configuratio
 import co.edu.udea.nexum.profile.academic_education.domain.api.AcademicEducationServicePort;
 import co.edu.udea.nexum.profile.academic_education.domain.spi.AcademicEducationPersistencePort;
 import co.edu.udea.nexum.profile.academic_education.domain.usecase.AcademicEducationUseCase;
-import co.edu.udea.nexum.profile.auth.domain.spi.security.AuthenticationSecurityPort;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
 import org.springframework.context.annotation.Bean;

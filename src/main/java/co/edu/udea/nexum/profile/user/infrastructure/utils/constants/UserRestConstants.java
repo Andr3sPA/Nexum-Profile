@@ -14,6 +14,11 @@ public class UserRestConstants {
     // Save
     public static final String USER_CONTROLLER_DESCRIPTION = "Cualquier operación relacionada a los Usuarios";
 
+    // Save user
+    public static final String SWAGGER_SAVE_USER_SUMMARY = "Crea un nuevo usuario en el sistema";
+    public static final String SWAGGER_USER_SAVED_SUCCESSFULLY = "El usuario ha sido creado exitosamente";
+
+
     // Find by id
     public static final String SWAGGER_USER_WITH_ID_NOT_FOUND = "No se ha encontrado un usuario con ese id";
     public static final String SWAGGER_USER_FOUND = "El usuario ha sido encontrado";
@@ -30,4 +35,11 @@ public class UserRestConstants {
     // Delete by id
     public static final String SWAGGER_DELETE_USER_BY_ID_SUMMARY = "Eliminar el usuario del id entregado";
     public static final String SWAGGER_USER_DELETED_SUCCESSFULLY = "El usuario ha sido eliminado satisfactoriamente";
+
+    // Find all filtered
+    public static final String SWAGGER_FIND_ALL_USERS_FILTERED_SUMMARY = "Busca usuarios según filtros complejos, paginados";
+    public static final String SWAGGER_FIND_ALL_USERS_FILTERED_SUCCESSFULLY = "Retorna una página de usuarios básicos que coinciden con los filtros";
+    public static final String USER_CONTROLLER_FILTER_PATH = "/filter";
+    public static final String AUTHENTICATED = "/authenticated";
+
 }

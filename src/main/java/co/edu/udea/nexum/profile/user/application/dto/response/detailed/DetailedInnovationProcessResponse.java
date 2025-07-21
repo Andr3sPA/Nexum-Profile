@@ -1,8 +1,7 @@
-package co.edu.udea.nexum.profile.user.application.dto.response;
+package co.edu.udea.nexum.profile.user.application.dto.response.detailed;
 
 import co.edu.udea.nexum.profile.common.application.dto.response.BaseResponse;
 import co.edu.udea.nexum.profile.innovation_process.application.dto.response.InnovationProcessTypeResponse;
-import co.edu.udea.nexum.profile.innovation_process.application.dto.response.InnovationProcessUserResponse;
 import lombok.Builder;
 import lombok.Data;
 

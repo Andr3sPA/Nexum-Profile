@@ -1,10 +1,14 @@
 package co.edu.udea.nexum.profile.user.infrastructure.input.rest.v1;
 
+import co.edu.udea.nexum.profile.common.application.dto.request.PageQuery;
+import co.edu.udea.nexum.profile.common.application.dto.request.PaginationRequest;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.infrastructure.configuration.advisor.dto.ExceptionResponse;
 import co.edu.udea.nexum.profile.common.infrastructure.configuration.advisor.dto.ValidationExceptionResponse;
 import co.edu.udea.nexum.profile.user.application.dto.request.UserRequest;
+import co.edu.udea.nexum.profile.user.application.dto.request.filter.UserFilterRequest;
 import co.edu.udea.nexum.profile.user.application.dto.response.UserResponse;
+import co.edu.udea.nexum.profile.user.application.dto.response.basic.BasicUserResponse;
 import co.edu.udea.nexum.profile.user.application.handler.UserHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -32,6 +36,25 @@ import static co.edu.udea.nexum.profile.user.infrastructure.utils.constants.User
 @Tag(name = USER_CONTROLLER_NAME, description = USER_CONTROLLER_DESCRIPTION)
 public class UserController {
     private final UserHandler userHandler;
+
+    @Operation(summary = SWAGGER_SAVE_USER_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = SWAGGER_USER_SAVED_SUCCESSFULLY,
+                    content = @Content(schema = @Schema(implementation = UserResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_BAD_REQUEST,
+                    description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS,
+                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))
+            ),
+    })
+    @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATIVE')")
+    @PostMapping
+    public ResponseEntity<UserResponse> save(@Valid @RequestBody UserRequest request) {
+        return ResponseEntity.ok(userHandler.save(request));
+    }
 
     @Operation(summary = SWAGGER_FIND_USER_BY_ID_SUMMARY)
     @ApiResponses(value = {
@@ -107,8 +130,31 @@ public class UserController {
         return ResponseEntity.ok(userHandler.deleteById(id));
     }
 
-    @GetMapping("/authenticated")
+    @GetMapping(AUTHENTICATED)
     public ResponseEntity<UserResponse> findCurrentUser() {
         return ResponseEntity.ok(userHandler.findAuthenticatedUser());
+    }
+
+    @Operation(summary = SWAGGER_FIND_ALL_USERS_FILTERED_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = SWAGGER_FIND_ALL_USERS_FILTERED_SUCCESSFULLY,
+                    content = @Content(schema = @Schema(implementation = BasicUserResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_BAD_REQUEST,
+                    description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS,
+                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))
+            ),
+    })
+    @PreAuthorize("hasAnyRole('DEAN', 'ADMINISTRATIVE')")
+    @GetMapping(USER_CONTROLLER_FILTER_PATH)
+    public ResponseEntity<?> findAllFiltered(
+            UserFilterRequest filterRequest,
+            PageQuery query
+    ) {
+        PaginationRequest paginationRequest = PaginationRequest.build(query);
+        return ResponseEntity.ok(userHandler.findAllFiltered(filterRequest, paginationRequest));
     }
 }

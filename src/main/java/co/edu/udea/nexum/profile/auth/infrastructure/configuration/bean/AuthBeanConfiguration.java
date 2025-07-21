@@ -1,11 +1,13 @@
 package co.edu.udea.nexum.profile.auth.infrastructure.configuration.bean;
 
+import co.edu.udea.nexum.profile.auth.domain.api.AuthCrudServicePort;
 import co.edu.udea.nexum.profile.auth.domain.api.AuthServicePort;
 import co.edu.udea.nexum.profile.auth.domain.api.TokenServicePort;
 import co.edu.udea.nexum.profile.auth.domain.spi.persistence.AuthPersistencePort;
 import co.edu.udea.nexum.profile.auth.domain.spi.persistence.RolePersistencePort;
 import co.edu.udea.nexum.profile.auth.domain.spi.security.AuthenticationSecurityPort;
 import co.edu.udea.nexum.profile.auth.domain.spi.security.TokenSecurityPort;
+import co.edu.udea.nexum.profile.auth.domain.usecase.AuthCrudUseCase;
 import co.edu.udea.nexum.profile.auth.domain.usecase.AuthUseCase;
 import co.edu.udea.nexum.profile.auth.domain.usecase.TokenUseCase;
 import co.edu.udea.nexum.profile.user.domain.spi.IdentityDocumentTypePersistencePort;
@@ -40,6 +42,17 @@ public class AuthBeanConfiguration {
         return new TokenUseCase(
                 tokenSecurityPort,
                 authPersistencePort
+        );
+    }
+
+    @Bean
+    public AuthCrudServicePort authCrudServicePort(
+            AuthPersistencePort authPersistencePort,
+            RolePersistencePort rolePersistencePort
+    ) {
+        return new AuthCrudUseCase(
+                authPersistencePort,
+                rolePersistencePort
         );
     }
 }

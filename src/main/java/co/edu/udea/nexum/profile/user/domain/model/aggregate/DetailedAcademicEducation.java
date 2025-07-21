@@ -2,12 +2,10 @@ package co.edu.udea.nexum.profile.user.domain.model.aggregate;
 
 import co.edu.udea.nexum.profile.academic_education.domain.utils.enums.StudyType;
 import co.edu.udea.nexum.profile.common.domain.model.Model;
-
-import java.time.LocalDateTime;
-
-
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.domain.utils.contracts.BaseBuilder;
+
+import java.time.LocalDateTime;
 
 @Generated
 public class DetailedAcademicEducation implements Model<Long> {

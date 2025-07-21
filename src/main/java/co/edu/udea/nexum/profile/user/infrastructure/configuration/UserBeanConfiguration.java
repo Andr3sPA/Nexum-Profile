@@ -29,12 +29,14 @@ public class UserBeanConfiguration {
             UserPersistencePort userPersistencePort,
             IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort,
             AuthenticationSecurityPort authenticationSecurityPort,
+            ProgramVersionPersistencePort programVersionPersistencePort,
             AuthPersistencePort authPersistencePort
     ) {
         return new UserUseCase(
                 userPersistencePort,
                 identityDocumentTypePersistencePort,
                 authenticationSecurityPort,
+                programVersionPersistencePort,
                 authPersistencePort
 
         );

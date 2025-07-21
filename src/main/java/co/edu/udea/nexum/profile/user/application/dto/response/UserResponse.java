@@ -1,6 +1,7 @@
 package co.edu.udea.nexum.profile.user.application.dto.response;
 
 import co.edu.udea.nexum.profile.common.application.dto.response.BaseResponse;
+import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class UserResponse implements BaseResponse {
     private String middleName;
     private String lastname;
     private String secondLastname;
+    private Gender gender;
     private LocalDate birthdate;
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdate;

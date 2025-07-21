@@ -9,5 +9,5 @@ import lombok.Data;
 public class ProgramFeignResponse implements FeignResponse {
     private Long id;
     private String name;
-    private String sniesCode;
+    private String code;
 }

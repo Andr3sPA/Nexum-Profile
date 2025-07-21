@@ -42,6 +42,13 @@ public class CommonHelpers {
     }
 
 
+    public static void replaceIfNotNull(String value, Consumer<String> setter) {
+        if (value != null && !value.isEmpty()) {
+            setter.accept(value);
+        }
+    }
+
+
     public static <T> void replaceIfNotNull(List<T> value, Consumer<List<T>> setter) {
         if (value != null) {
             setter.accept(value);

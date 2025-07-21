@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Generated
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends NexumException {
     public EntityNotFoundException(String message, boolean custom) {
         super(message);
         if (custom) log.error(message);

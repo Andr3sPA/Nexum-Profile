@@ -1,15 +1,14 @@
 package co.edu.udea.nexum.profile.user.domain.utils.functions;
 
-import co.edu.udea.nexum.profile.innovation_process.domain.model.InnovationProcess;
-import co.edu.udea.nexum.profile.user.domain.model.User;
-import co.edu.udea.nexum.profile.user.domain.model.aggregate.*;
-
 import co.edu.udea.nexum.profile.academic_education.domain.model.AcademicEducation;
-import co.edu.udea.nexum.profile.coursed_program.domain.model.CoursedProgram;
 import co.edu.udea.nexum.profile.contact_information.domain.model.ContactInformation;
+import co.edu.udea.nexum.profile.coursed_program.domain.model.CoursedProgram;
 import co.edu.udea.nexum.profile.family_information.domain.model.FamilyInformation;
 import co.edu.udea.nexum.profile.graduate_participation.domain.model.GraduateParticipation;
+import co.edu.udea.nexum.profile.innovation_process.domain.model.InnovationProcess;
 import co.edu.udea.nexum.profile.job.domain.model.Job;
+import co.edu.udea.nexum.profile.user.domain.model.User;
+import co.edu.udea.nexum.profile.user.domain.model.aggregate.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

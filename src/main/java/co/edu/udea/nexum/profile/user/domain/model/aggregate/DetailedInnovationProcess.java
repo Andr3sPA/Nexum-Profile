@@ -5,7 +5,6 @@ import co.edu.udea.nexum.profile.common.domain.model.Model;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.domain.utils.contracts.BaseBuilder;
 import co.edu.udea.nexum.profile.innovation_process.domain.model.InnovationProcessType;
-import co.edu.udea.nexum.profile.user.domain.model.User;
 
 import java.time.LocalDateTime;
 

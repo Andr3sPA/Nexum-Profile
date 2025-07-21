@@ -1,4 +1,4 @@
-package co.edu.udea.nexum.profile.user.application.dto.response;
+package co.edu.udea.nexum.profile.user.application.dto.response.detailed;
 
 import co.edu.udea.nexum.profile.job.application.dto.response.JobAreaResponse;
 import co.edu.udea.nexum.profile.job.application.dto.response.JobDelayResponse;

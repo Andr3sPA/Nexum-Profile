@@ -1,15 +1,13 @@
 package co.edu.udea.nexum.profile.user.application.mapper.response;
 
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
-import co.edu.udea.nexum.profile.user.application.dto.response.*;
-import co.edu.udea.nexum.profile.user.domain.model.aggregate.DetailedUser;
+import co.edu.udea.nexum.profile.user.application.dto.response.IdentityDocumentTypeResponse;
+import co.edu.udea.nexum.profile.user.application.dto.response.detailed.DetailedUserResponse;
 import co.edu.udea.nexum.profile.user.domain.model.IdentityDocumentType;
-import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
+import co.edu.udea.nexum.profile.user.domain.model.aggregate.DetailedUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-
-import java.util.List;
 
 @Generated
 @Mapper(
