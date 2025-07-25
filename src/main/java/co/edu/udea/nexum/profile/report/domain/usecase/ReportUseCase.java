@@ -1,6 +1,8 @@
 package co.edu.udea.nexum.profile.report.domain.usecase;
 
 import co.edu.udea.nexum.profile.auth.domain.utils.enums.RoleName;
+import co.edu.udea.nexum.profile.coursed_program.domain.model.CoursedProgram;
+import co.edu.udea.nexum.profile.coursed_program.domain.model.ProgramVersion;
 import co.edu.udea.nexum.profile.coursed_program.domain.model.aggregate.FullProgramVersion;
 import co.edu.udea.nexum.profile.coursed_program.domain.spi.ProgramVersionPersistencePort;
 import co.edu.udea.nexum.profile.report.domain.api.ReportServicePort;
@@ -17,6 +19,7 @@ import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static co.edu.udea.nexum.profile.report.domain.utils.constants.ReportConstants.*;
@@ -49,6 +52,8 @@ public class ReportUseCase implements ReportServicePort {
 
     private GraduateReport buildGraduateReport(UserFilter filter) {
         List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
+        Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
+                .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
         List<Long> versionIds = programVersions.stream()
                 .filter(version -> Objects.equals(version.getProgram().getId(), filter.getProgramId()))
                 .map(FullProgramVersion::getId)
@@ -64,11 +69,39 @@ public class ReportUseCase implements ReportServicePort {
 
         List<FullUser> fullUsers = userPersistencePort.findAllFilteredForReport(filter);
 
+        List<FullUser> enrichedFullUser = fullUsers.stream()
+                .map(enrichFullUser(programVersionMap))
+                .toList();
+
         List<ReportUser> reportDataList = fullUsers.stream()
                 .map(ReportHelper::fromFullUser)
                 .toList();
 
         return buildGraduateReportModel(fullUsers, filter, programName, reportDataList);
+    }
+
+    private Function<FullUser, FullUser> enrichFullUser(Map<Long, FullProgramVersion> programVersionMap) {
+        return user -> {
+            List<CoursedProgram> coursedPrograms = user.getCoursedPrograms().stream()
+                    .map(mapFullProgramVersionToSimple(programVersionMap)
+                    ).toList();
+            user.setCoursedPrograms(coursedPrograms);
+            return user;
+        };
+    }
+
+    private Function<CoursedProgram, CoursedProgram> mapFullProgramVersionToSimple(Map<Long, FullProgramVersion> programVersionMap) {
+        return program -> {
+            FullProgramVersion version = programVersionMap.getOrDefault(program.getProgramVersion().getId(), null);
+            program.setProgramVersion(
+                    ProgramVersion.builder()
+                            .id(version.getId())
+                            .name(version.getProgram().getName())
+                            .version(version.getVersion())
+                            .build()
+            );
+            return program;
+        };
     }
 
     private GraduateReport buildGraduateReportModel(

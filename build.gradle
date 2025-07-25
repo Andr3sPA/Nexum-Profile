@@ -67,6 +67,7 @@ dependencies {
 	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '7.0.3'
 	implementation group: 'net.sf.jasperreports', name: 'jasperreports-pdf', version: '7.0.3'
 	implementation 'net.sf.jasperreports:jasperreports-fonts:7.0.3'
+	implementation group: 'org.jfree', name: 'jfreechart', version: '1.5.6'
 	implementation 'commons-logging:commons-logging:1.2'
 
 

@@ -30,7 +30,7 @@ import co.edu.udea.nexum.profile.user.domain.utils.functions.DetailedUserMapper;
 import java.util.List;
 import java.util.UUID;
 
-public class DetailedUserServiceImpl implements DetailedUserServicePort {
+public class DetailedUserUseCase implements DetailedUserServicePort {
 
     private final UserPersistencePort userPersistencePort;
     private final JobPersistencePort jobPersistencePort;
@@ -50,7 +50,7 @@ public class DetailedUserServiceImpl implements DetailedUserServicePort {
     private final AuthenticationSecurityPort authenticationSecurityPort;
     private final AuthPersistencePort authPersistencePort;
 
-    private DetailedUserServiceImpl(DetailedUserServiceImplBuilder builder) {
+    private DetailedUserUseCase(DetailedUserServiceImplBuilder builder) {
         this.userPersistencePort = builder.userPersistencePort;
         this.jobPersistencePort = builder.jobPersistencePort;
         this.contactInformationPersistencePort = builder.contactInformationPersistencePort;
@@ -287,8 +287,8 @@ public class DetailedUserServiceImpl implements DetailedUserServicePort {
             return this;
         }
 
-        public DetailedUserServiceImpl build() {
-            return new DetailedUserServiceImpl(this);
+        public DetailedUserUseCase build() {
+            return new DetailedUserUseCase(this);
         }
     }
 }

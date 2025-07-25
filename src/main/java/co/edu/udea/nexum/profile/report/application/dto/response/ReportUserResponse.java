@@ -11,6 +11,7 @@ public class ReportUserResponse {
     private String email;
     private String mobile;
     private String graduateGender;
+    private String program;
     private String occupation;
     private String identityDocument;
     private Integer graduationYear;

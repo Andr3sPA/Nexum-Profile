@@ -16,7 +16,7 @@ import co.edu.udea.nexum.profile.user.domain.api.DetailedUserServicePort;
 import co.edu.udea.nexum.profile.user.domain.api.UserServicePort;
 import co.edu.udea.nexum.profile.user.domain.spi.IdentityDocumentTypePersistencePort;
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
-import co.edu.udea.nexum.profile.user.domain.usecase.DetailedUserServiceImpl;
+import co.edu.udea.nexum.profile.user.domain.usecase.DetailedUserUseCase;
 import co.edu.udea.nexum.profile.user.domain.usecase.UserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,7 +62,7 @@ public class UserBeanConfiguration {
             AuthenticationSecurityPort authenticationSecurityPort,
             AuthPersistencePort authPersistencePort
     ) {
-        return DetailedUserServiceImpl.builder()
+        return DetailedUserUseCase.builder()
                 .userPersistencePort(userPersistencePort)
                 .jobPersistencePort(jobPersistencePort)
                 .contactInformationPersistencePort(contactInformationPersistencePort)
