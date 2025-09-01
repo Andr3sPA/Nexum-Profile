@@ -118,3 +118,12 @@ jacocoTestReport {
 		}))
 	}
 }
+
+tasks.named('bootRun') {
+    doFirst {
+        file('.env').readLines().each() {
+            def (key, value) = it.tokenize('=')
+            environment key, value
+        }
+    }
+}

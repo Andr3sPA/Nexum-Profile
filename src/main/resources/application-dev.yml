@@ -1,44 +1,47 @@
 spring:
-    datasource:
-        url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:nexum}
-        username: ${DB_USER:nexum_user}
-        password: ${DB_PASSWORD:password}
-        driver-class-name: org.postgresql.Driver
-        hikari:
-            schema: ${DB_SCHEMA:profile}
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:nexum}?sslmode=require&channelBinding=require
+    username: ${DB_USER:nexum_user}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      schema: ${DB_SCHEMA:profile}
 
-    jpa:
-        hibernate:
-            ddl-auto: ${DB_DDL:update}
-            naming:
-                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        properties:
-            hibernate:
-                format_sql: true
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
-        show-sql: true
-        database: postgresql
+  jpa:
+    hibernate:
+      ddl-auto: ${DB_DDL:update}
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: ${DB_SCHEMA:profile}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    database: postgresql
+  output:
+    ansi:
+      enabled: ALWAYS
 
 logging:
-    level:
-        web: trace
-        org:
-            hibernate: info
-            springframework:
-                web: info
+  level:
+    web: trace
+    org:
+      hibernate: info
+      springframework:
+        web: info
 
 server:
-    servlet:
-        context-path: ${APP_PATH:/nexum}
-    port: ${APP_PORT:8100}
+  servlet:
+    context-path: ${APP_PATH:/nexum}
+  port: ${APP_PORT:8100}
 
 jwt:
-    secret_key: ${JTW_TOKEN:0a07c69f2688f2dd628dd606378c848bed9dd8472f157604f36e18a0f84ef787}
-    expiration_time: ${JWT_EXPIRATION_TIME:86400000}
+  secret_key: ${JTW_TOKEN:0a07c69f2688f2dd628dd606378c848bed9dd8472f157604f36e18a0f84ef787}
+  expiration_time: ${JWT_EXPIRATION_TIME:86400000}
 
 nexum:
-    catalog:
-        base_url: ${NEXUM_CATALOG_URL:http://localhost:8110/nexum/v1}
+  catalog:
+    base_url: ${NEXUM_CATALOG_URL:http://localhost:8110/nexum/v1}
 
-allowed-origins:
-    http://localhost:3000/
+allowed-origins: http://localhost:3000/
