@@ -13,4 +13,8 @@ public enum RoleName {
      * A Dean can list and filter to search graduates
      */
     DEAN,
+    /**
+     * An employer can search and hire graduates
+     */
+    EMPLOYER,
 }
