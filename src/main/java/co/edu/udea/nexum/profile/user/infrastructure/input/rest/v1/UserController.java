@@ -148,7 +148,7 @@ public class UserController {
                     content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))
             ),
     })
-    @PreAuthorize("hasAnyRole('DEAN', 'ADMINISTRATIVE')")
+    @PreAuthorize("hasAnyRole('DEAN', 'ADMINISTRATIVE','EMPLOYER')")
     @GetMapping(USER_CONTROLLER_FILTER_PATH)
     public ResponseEntity<?> findAllFiltered(
             UserFilterRequest filterRequest,
