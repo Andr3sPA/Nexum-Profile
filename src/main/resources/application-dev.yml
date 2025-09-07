@@ -44,6 +44,4 @@ nexum:
   catalog:
     base_url: ${NEXUM_CATALOG_URL:http://localhost:8110/nexum/v1}
 
-allowed-origins:
-  - http://localhost:3000/
-  - ${NEXUM_FRONT_ORIGIN}
+allowed-origins: http://localhost:3000/, ${NEXUM_FRONT_ORIGIN}
