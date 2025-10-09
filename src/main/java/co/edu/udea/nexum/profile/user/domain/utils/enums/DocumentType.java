@@ -11,7 +11,8 @@ public enum DocumentType {
     CE(CE_NAME, CE_ABBREV),
     TE(TE_NAME, TE_ABBREV),
     PP(PP_NAME, PP_ABBREV),
-    PEP(PEP_NAME, PEP_ABBREV);
+    PEP(PEP_NAME, PEP_ABBREV),
+    NIT(NIT_NAME, NIT_ABBREV);
 
     private final String name;
     private final String abbreviation;

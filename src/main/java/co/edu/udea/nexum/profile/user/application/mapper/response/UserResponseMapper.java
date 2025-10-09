@@ -33,4 +33,5 @@ public interface UserResponseMapper extends BaseResponseMapper<User, UserRespons
     }
 
     PageResponse<BasicUserResponse> toPageResponse(DomainPage<BasicUser> user);
+    BasicUserResponse toBasicResponse(BasicUser basicUser);
 }

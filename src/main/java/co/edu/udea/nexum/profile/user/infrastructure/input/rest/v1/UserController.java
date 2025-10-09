@@ -28,6 +28,9 @@ import java.util.UUID;
 
 import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.CommonRestConstants.*;
 import static co.edu.udea.nexum.profile.user.infrastructure.utils.constants.UserRestConstants.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Generated
 @RestController
@@ -156,5 +159,42 @@ public class UserController {
     ) {
         PaginationRequest paginationRequest = PaginationRequest.build(query);
         return ResponseEntity.ok(userHandler.findAllFiltered(filterRequest, paginationRequest));
+    }
+
+    @Operation(summary = "Get authenticated user's basic profile")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = "Authenticated user basic profile found",
+                    content = @Content(schema = @Schema(implementation = BasicUserResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_NOT_FOUND,
+                    description = "Authenticated user not found",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @GetMapping("/me/basic")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<BasicUserResponse> getAuthenticatedUserBasic() {
+        return ResponseEntity.ok(userHandler.findAuthenticatedUserBasic());
+    }
+    
+    @Operation(summary = "Get user basic profile by auth ID")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = "User basic profile found",
+                    content = @Content(schema = @Schema(implementation = BasicUserResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_NOT_FOUND,
+                    description = "User not found",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @GetMapping("/basic")
+    public ResponseEntity<BasicUserResponse> getUserBasicByAuthId(@RequestParam UUID authId) {
+        return ResponseEntity.ok(userHandler.findUserBasicByAuthId(authId));
     }
 }

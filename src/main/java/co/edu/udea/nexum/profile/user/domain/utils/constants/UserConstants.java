@@ -21,6 +21,8 @@ public class UserConstants {
     public static final String PP_ABBREV = "PP";
     public static final String PEP_NAME = "Permiso Especial de Permanencia";
     public static final String PEP_ABBREV = "PEP";
+    public static final String NIT_NAME = "Número de Identificación Tributaria";
+    public static final String NIT_ABBREV = "NIT";
 
     public static final String MALE_NAME = "Hombre";
     public static final String MALE_ABBREVIATION = "H";

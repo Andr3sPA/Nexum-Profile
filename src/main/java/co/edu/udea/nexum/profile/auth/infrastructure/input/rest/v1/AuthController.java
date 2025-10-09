@@ -1,7 +1,9 @@
 package co.edu.udea.nexum.profile.auth.infrastructure.input.rest.v1;
 
 import co.edu.udea.nexum.profile.auth.application.dto.request.AuthenticationRequest;
+import co.edu.udea.nexum.profile.auth.application.dto.request.EmployerRegisterRequest;
 import co.edu.udea.nexum.profile.auth.application.dto.request.UserRegisterRequest;
+import co.edu.udea.nexum.profile.auth.application.dto.response.AuthResponse;
 import co.edu.udea.nexum.profile.auth.application.dto.response.AuthenticatedUserResponse;
 import co.edu.udea.nexum.profile.auth.application.dto.response.UserRegisteredResponse;
 import co.edu.udea.nexum.profile.auth.application.handler.AuthHandler;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.*;
 import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.CommonRestConstants.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -79,6 +83,31 @@ public class AuthController {
     public ResponseEntity<UserRegisteredResponse> registerGraduate(@RequestBody @Valid UserRegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 authHandler.registerGraduate(request)
+        );
+    }
+
+    @Operation(summary = SWAGGER_REGISTER_EMPLOYER_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_CREATED,
+                    description = SWAGGER_REGISTER_EMPLOYER_SUCCESSFULLY,
+                    content = @Content(schema = @Schema(implementation = UserRegisteredResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_CONFLICT,
+                    description = SWAGGER_REGISTER_ADMINISTRATIVE_SUMMARY_EMAIL_OR_ID_ALREADY_EXISTS,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_BAD_REQUEST,
+                    description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS,
+                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))
+            ),
+    })
+    @PostMapping(REGISTER_EMPLOYER_PATH)
+    public ResponseEntity<UserRegisteredResponse> registerEmployer(@RequestBody @Valid EmployerRegisterRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                authHandler.registerEmployer(request)
         );
     }
 
@@ -166,6 +195,26 @@ public class AuthController {
                 authHandler.getAuthenticatedUser()
         );
     }
-    
-    
+
+    @Operation(summary = GET_AUTH_BY_USER_ID_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = GET_AUTH_BY_USER_ID_SUCCESSFULLY,
+                    content = @Content(schema = @Schema(implementation = AuthResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_NOT_FOUND,
+                    description = GET_AUTH_BY_USER_ID_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @GetMapping(GET_AUTH_BY_USER_ID)
+    public ResponseEntity<AuthResponse> getAuthByUserId(@PathVariable UUID userId) {
+        return ResponseEntity.ok(
+                authHandler.getByUserId(userId)
+        );
+    }
+
+
 }

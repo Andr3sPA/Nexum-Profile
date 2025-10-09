@@ -75,4 +75,11 @@ public class UserJpaAdapter extends BaseCrudAdapterImpl<UUID, User, UserEntity> 
     public boolean existsByIdentityDocument(String identityDocument) {
         return userRepository.existsByIdentityDocument(identityDocument);
     }
+
+    @Override
+    public FullUser findFullById(UUID id) {
+        return userEntityMapper.toFullDomain(
+                fullUserRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"))
+        );
+    }
 }

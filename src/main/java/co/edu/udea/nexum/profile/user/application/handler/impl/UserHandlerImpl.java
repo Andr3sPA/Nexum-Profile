@@ -52,6 +52,20 @@ public class UserHandlerImpl extends BaseCrudHandlerImpl<UUID, User, UserRespons
     }
 
     @Override
+    public BasicUserResponse findAuthenticatedUserBasic() {
+        return userResponseMapper.toBasicResponse(
+                userServicePort.findAuthenticatedUserBasic()
+        );
+    }
+
+    @Override
+    public BasicUserResponse findUserBasicByAuthId(UUID authId) {
+        return userResponseMapper.toBasicResponse(
+                userServicePort.findUserBasicByAuthId(authId)
+        );
+    }
+
+    @Override
     public PageResponse<BasicUserResponse> findAllFiltered(UserFilterRequest userFilterRequest, PaginationRequest paginationRequest) {
         UserFilter filter = userRequestMapper.toDomain(userFilterRequest);
         PaginationData paginationData = paginationRequest.toDomain();

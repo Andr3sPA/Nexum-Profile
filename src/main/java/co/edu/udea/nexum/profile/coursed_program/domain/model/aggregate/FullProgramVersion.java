@@ -13,6 +13,16 @@ import lombok.Setter;
 @Generated
 public class FullProgramVersion implements Model<Long> {
     private Long id;
+
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
     private Short version;
     private Integer startYear;
     private Integer endYear;

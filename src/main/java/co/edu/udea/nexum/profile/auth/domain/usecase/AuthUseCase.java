@@ -18,6 +18,7 @@ import co.edu.udea.nexum.profile.user.domain.spi.IdentityDocumentTypePersistence
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static co.edu.udea.nexum.profile.user.domain.utils.constants.UserConstants.EMAIL_ATTRIBUTE;
 import static co.edu.udea.nexum.profile.user.domain.utils.constants.UserConstants.IDENTITY_DOCUMENT_ATTRIBUTE;
@@ -57,6 +58,13 @@ public class AuthUseCase implements AuthServicePort {
     }
 
     @Override
+    public User registerEmployer(Auth auth, User user) {
+        Role role = rolePersistencePort.findByName(RoleName.EMPLOYER);
+        auth.setRole(role);
+        return register(auth, user);
+    }
+
+    @Override
     public AuthenticatedUser login(String email, String password) {
         try {
             Auth user = authPersistencePort.findByEmail(email);
@@ -73,6 +81,11 @@ public class AuthUseCase implements AuthServicePort {
     @Override
     public AuthenticatedUser getAuthenticatedUser() {
         return authenticationSecurityPort.getAuthenticatedUser();
+    }
+
+    @Override
+    public Auth getByUserId(UUID userId) {
+        return authPersistencePort.findByUserId(userId);
     }
 
     private User register(Auth auth, User user) {

@@ -25,11 +25,12 @@ spring:
 
 logging:
   level:
-    web: trace
+    root: debug
+    web: debug
     org:
-      hibernate: info
+      hibernate: debug
       springframework:
-        web: info
+        web: debug
 
 server:
   servlet:

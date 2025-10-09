@@ -30,6 +30,17 @@ import java.util.UUID;
         }
 )
 public class FullUserEntity implements NexumEntity<UUID>, AuditableNexumEntity {
+
+    @Override
+    public UUID getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")

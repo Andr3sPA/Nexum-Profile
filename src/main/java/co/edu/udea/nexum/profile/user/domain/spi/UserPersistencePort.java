@@ -14,6 +14,7 @@ public interface UserPersistencePort extends BaseCrudPersistencePort<UUID, User>
     boolean existsById(UUID id);
     boolean existsByIdentityDocument(String identityDocument);
     User findByIdentityDocument(String identityDocument);
+    FullUser findFullById(UUID id);
     DomainPage<FullUser> findAllFiltered(UserFilter filter, PaginationData paginationData);
     List<FullUser> findAllFilteredForReport(UserFilter filterRequest);
 }

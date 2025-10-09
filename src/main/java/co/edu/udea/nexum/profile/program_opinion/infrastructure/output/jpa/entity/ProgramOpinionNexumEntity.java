@@ -23,6 +23,16 @@ import java.util.List;
 )
 public class ProgramOpinionNexumEntity implements NexumEntity<Long>, AuditableNexumEntity {
 
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "program_opinion_id")

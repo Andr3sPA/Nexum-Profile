@@ -19,6 +19,8 @@ import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.Co
 @Generated
 public class FeignErrorDecoder implements ErrorDecoder {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FeignErrorDecoder.class);
+
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override

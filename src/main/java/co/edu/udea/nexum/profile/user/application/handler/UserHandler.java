@@ -12,5 +12,7 @@ import java.util.UUID;
 
 public interface UserHandler extends BaseCrudHandler<UUID, UserResponse, UserRequest> {
     UserResponse findAuthenticatedUser();
+    BasicUserResponse findAuthenticatedUserBasic();
+    BasicUserResponse findUserBasicByAuthId(UUID authId);
     PageResponse<BasicUserResponse> findAllFiltered(UserFilterRequest userFilterRequest, PaginationRequest paginationRequest);
 }

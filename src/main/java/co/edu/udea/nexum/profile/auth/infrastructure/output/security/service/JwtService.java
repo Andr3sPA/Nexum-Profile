@@ -19,6 +19,8 @@ import java.util.function.Function;
 @Slf4j
 @Service
 public class JwtService {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(JwtService.class);
     private final String secret;
 
     private final Integer expirationTime;

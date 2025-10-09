@@ -4,6 +4,8 @@ import co.edu.udea.nexum.profile.common.domain.exception.EntityNotFoundException
 import co.edu.udea.nexum.profile.common.domain.model.AuditableModel;
 import co.edu.udea.nexum.profile.common.domain.model.Model;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,6 +15,8 @@ import java.util.function.Function;
 
 @Slf4j
 public class CommonHelpers {
+
+    private static final Logger log = LoggerFactory.getLogger(CommonHelpers.class);
 
     public static final String VALIDATING_EXISTENCE_OF_ENTITY = "Validating existence of {} with id '{}'";
 

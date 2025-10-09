@@ -21,6 +21,17 @@ import java.util.UUID;
         }
 )
 public class AuthEntity implements NexumEntity<UUID> {
+
+    @Override
+    public UUID getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "authentication_id")

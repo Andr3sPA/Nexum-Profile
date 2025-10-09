@@ -23,6 +23,16 @@ import java.time.LocalDateTime;
 )
 public class FamilyInformationEntity implements NexumEntity<Long>, AuditableNexumEntity {
 
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "family_information_id")

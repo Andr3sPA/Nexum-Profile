@@ -11,5 +11,7 @@ import java.util.UUID;
 
 public interface UserServicePort extends BaseCrudServicePort<UUID, User> {
     User findAuthenticatedUser();
+    BasicUser findAuthenticatedUserBasic();
+    BasicUser findUserBasicByAuthId(UUID authId);
     DomainPage<BasicUser> findAllFiltered(UserFilter filter, PaginationData paginationData);
 }

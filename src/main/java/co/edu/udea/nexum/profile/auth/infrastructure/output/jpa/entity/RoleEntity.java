@@ -18,6 +18,17 @@ import lombok.*;
         }
 )
 public class RoleEntity implements NexumEntity<Long> {
+
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")

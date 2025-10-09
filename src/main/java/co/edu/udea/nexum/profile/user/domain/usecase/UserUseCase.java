@@ -106,6 +106,27 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
     }
 
     @Override
+    public BasicUser findAuthenticatedUserBasic() {
+        AuthenticatedUser authenticatedUser = authenticationSecurityPort.getAuthenticatedUser();
+        Auth auth = authPersistencePort.findById(authenticatedUser.getId());
+        List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
+        Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
+                .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
+        FullUser fullUser = userPersistencePort.findFullById(auth.getUser().getId());
+        return parseFull2Basic(fullUser, programVersionMap);
+    }
+
+    @Override
+    public BasicUser findUserBasicByAuthId(UUID authId) {
+        Auth auth = authPersistencePort.findById(authId);
+        List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
+        Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
+                .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
+        FullUser fullUser = userPersistencePort.findFullById(auth.getUser().getId());
+        return parseFull2Basic(fullUser, programVersionMap);
+    }
+
+    @Override
     public DomainPage<BasicUser> findAllFiltered(UserFilter filter, PaginationData paginationData) {
         List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
         Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()

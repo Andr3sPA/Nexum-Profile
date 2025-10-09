@@ -62,6 +62,7 @@ public interface UserEntityMapper extends BaseEntityMapper<User, UserEntity> {
 
 
     List<FullUser> toFullDomain(List<FullUserEntity> page);
+    FullUser toFullDomain(FullUserEntity entity);
 
     default InnovationProcessType toInnovationProcess(Long id) {
         return InnovationProcessType.builder()
