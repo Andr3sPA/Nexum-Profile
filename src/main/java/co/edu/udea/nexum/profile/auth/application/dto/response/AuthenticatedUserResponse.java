@@ -14,4 +14,5 @@ public class AuthenticatedUserResponse implements BaseResponse {
     private RoleName role;
     private String email;
     private String token;
+    private UUID userId;
 }

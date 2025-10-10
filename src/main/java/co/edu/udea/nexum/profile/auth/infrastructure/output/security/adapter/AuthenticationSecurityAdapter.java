@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.constants.SecurityConstants.CLAIMS_ROLE_KEY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.constants.SecurityConstants.CLAIMS_USERID_KEY;
 import static co.edu.udea.nexum.profile.auth.infrastructure.output.security.utils.functions.SecurityFunctions.buildAuthenticatedUser;
 
 @Component
@@ -33,8 +34,8 @@ public class AuthenticationSecurityAdapter implements AuthenticationSecurityPort
                 )
         );
         final Map<String, String> claims = Map.of(
-                CLAIMS_ROLE_KEY,
-                auth.getRole().getName().name()
+                CLAIMS_ROLE_KEY, auth.getRole().getName().name(),
+                CLAIMS_USERID_KEY, auth.getUser().getId().toString()
         );
         String token = jwtService.generateToken(claims, authorizationData.getId().toString());
         return AuthenticatedUser.builder()
@@ -42,6 +43,7 @@ public class AuthenticationSecurityAdapter implements AuthenticationSecurityPort
                 .role(auth.getRole().getName())
                 .email(auth.getEmail())
                 .token(token)
+                .userId(auth.getUser().getId())
                 .build();
     }
 

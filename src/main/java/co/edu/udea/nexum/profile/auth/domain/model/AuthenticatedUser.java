@@ -3,15 +3,20 @@ package co.edu.udea.nexum.profile.auth.domain.model;
 import co.edu.udea.nexum.profile.auth.domain.utils.enums.RoleName;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.domain.utils.contracts.BaseBuilder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Generated
+@Getter
+@Setter
 public class AuthenticatedUser {
     private UUID id;
     private String email;
     private RoleName role;
     private String token;
+    private UUID userId;
 
     @Generated
     public AuthenticatedUser(AuthenticatedUserBuilder builder) {
@@ -19,38 +24,7 @@ public class AuthenticatedUser {
         this.role = builder.role;
         this.token = builder.token;
         this.email = builder.email;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public RoleName getRole() {
-        return role;
-    }
-
-    public void setRole(RoleName role) {
-        this.role = role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+        this.userId = builder.userId;
     }
 
     public static AuthenticatedUserBuilder builder(){
@@ -62,6 +36,7 @@ public class AuthenticatedUser {
         private UUID id;
         private RoleName role;
         private String token;
+        private UUID userId;
 
         public AuthenticatedUserBuilder id(UUID id) {
             this.id = id;
@@ -80,6 +55,11 @@ public class AuthenticatedUser {
 
         public AuthenticatedUserBuilder email(String email) {
             this.email = email;
+            return this;
+        }
+
+        public AuthenticatedUserBuilder userId(UUID userId) {
+            this.userId = userId;
             return this;
         }
 
