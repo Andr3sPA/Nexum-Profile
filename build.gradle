@@ -1,122 +1,102 @@
 plugins {
-	id 'java'
-	id 'jacoco'
-	id 'org.springframework.boot' version '3.4.5'
-	id 'io.spring.dependency-management' version '1.1.7'
-	id "org.springdoc.openapi-gradle-plugin" version "1.9.0"
+    id 'java'
+    id 'jacoco'
+    id 'org.springframework.boot' version '3.4.5'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id "org.springdoc.openapi-gradle-plugin" version "1.9.0"
+    id 'com.github.johnrengelman.shadow' version '8.1.1' // 👈 Plugin para empaquetar Lambda correctamente
 }
 
 group = 'co.edu.udea.nexum'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
-	set('springCloudVersion', "2024.0.1")
+    set('snippetsDir', file("build/generated-snippets"))
+    set('springCloudVersion', "2024.0.1")
 }
 
 dependencies {
-	// Annotations
-	annotationProcessor 'org.projectlombok:lombok'
-	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.6.3'
+    // AWS Lambda + Spring Boot integration
+    implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.0.2'
 
-	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.6.3'
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.5'
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.4.3'
-	implementation 'com.h2database:h2'
+    // OpenAPI
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5'
 
-	// Feign
-	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.2.0'
-	implementation group: 'io.github.openfeign', name: 'feign-hc5', version: '13.5'
+    // MapStruct y Lombok
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    compileOnly 'org.projectlombok:lombok'
 
-	// Developer
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // Feign
+    implementation 'io.github.openfeign:feign-hc5:13.5'
 
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
-	// JsonWebToken
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.6'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.6'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.6'
+    // Base de datos
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'com.h2database:h2'
 
-	// Database
-	runtimeOnly 'org.postgresql:postgresql'
+    // Jasper Reports
+    implementation 'net.sf.jasperreports:jasperreports:7.0.3'
+    implementation 'net.sf.jasperreports:jasperreports-pdf:7.0.3'
+    implementation 'net.sf.jasperreports:jasperreports-fonts:7.0.3'
+    implementation 'org.jfree:jfreechart:1.5.6'
+    implementation 'commons-logging:commons-logging:1.2'
 
-	// Reports
-	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '7.0.3'
-	implementation group: 'net.sf.jasperreports', name: 'jasperreports-pdf', version: '7.0.3'
-	implementation 'net.sf.jasperreports:jasperreports-fonts:7.0.3'
-	implementation group: 'org.jfree', name: 'jfreechart', version: '1.5.6'
-	implementation 'commons-logging:commons-logging:1.2'
-
-
-	// Test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'com.h2database:h2'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
-def jacocoExclude = [
-		'**/dto/.*',
-		'**/spi/.*',
-		'**/api/.*',
-		'**/mappers/.*',
-		'**/repository/.*',
-		'**/*.test',
-		'**/generated/.*',
-		"**/model/**/.*",
-		"**/application/**/.*",
-		"**/infrastructure/**/.*",
-]
-
 test {
-	useJUnitPlatform()
-	finalizedBy jacocoTestReport
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 jacoco {
-	toolVersion = "0.8.12"
+    toolVersion = "0.8.12"
 }
 
-
 jacocoTestReport {
-	reports {
-		xml.required = true
-		html.required = true
-	}
-	afterEvaluate {
-		classDirectories.setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: jacocoExclude)
-		}))
-	}
+    reports {
+        xml.required = true
+        html.required = true
+    }
 }
 
 tasks.named('bootRun') {
@@ -126,4 +106,49 @@ tasks.named('bootRun') {
             environment key, value
         }
     }
+}
+
+import java.nio.file.Files
+
+// Task para preparar el application.yml con variables del .env
+task prepareLambdaConfig {
+    doLast {
+        def envFile = file(".env")
+        def sourceFile = file("src/main/resources/application.yml")
+        def targetDir = file("$buildDir/generated-resources")
+        def targetFile = new File(targetDir, "application.yml")
+
+        targetDir.mkdirs()
+        def content = sourceFile.text
+
+        if (envFile.exists()) {
+            println "🔍 Leyendo variables del .env"
+            envFile.readLines().each { line ->
+                if (line && line.contains('=')) {
+                    def (key, value) = line.tokenize('=')
+                    value = value.trim()
+                    content = content.replace("\${${key}}", value)
+                }
+            }
+        }
+
+        targetFile.text = content
+        println "✅ application.yml preparado con valores del .env para Lambda"
+    }
+}
+
+// ⚙️ Shadow JAR: empaqueta TODAS las dependencias y deja las clases en la raíz
+tasks.named('shadowJar') {
+    dependsOn prepareLambdaConfig
+    archiveBaseName.set('profile-lambda')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    from("$buildDir/generated-resources") {
+        into ''
+    }
+    mergeServiceFiles()
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
 }
