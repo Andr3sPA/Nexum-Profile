@@ -13,11 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfiguration {
     @Bean
-    public OpenAPI customOpenApi(
+    OpenAPI customOpenApi(
             @Value("${app.name}") String appName,
             @Value("${app.description}") String appDescription,
-            @Value("${app.version}") String appVersion
-    ){
+            @Value("${app.version}") String appVersion) {
         return new OpenAPI().info(new Info()
                 .title(appName)
                 .description(appDescription)
@@ -25,8 +24,6 @@ public class OpenApiConfiguration {
                 .termsOfService(ConfigurationConstants.OPENAPI_TERMS_OF_SERVICE)
                 .license(new License()
                         .name(ConfigurationConstants.OPENAPI_LICENSE_NAME)
-                        .url(ConfigurationConstants.OPENAPI_LICENSE_URL)
-                )
-        );
+                        .url(ConfigurationConstants.OPENAPI_LICENSE_URL)));
     }
 }

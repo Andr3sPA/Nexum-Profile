@@ -3,7 +3,6 @@ package co.edu.udea.nexum.profile.common.domain.utils.functions;
 import co.edu.udea.nexum.profile.common.domain.exception.EntityNotFoundException;
 import co.edu.udea.nexum.profile.common.domain.model.AuditableModel;
 import co.edu.udea.nexum.profile.common.domain.model.Model;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-@Slf4j
 public class CommonHelpers {
 
     private static final Logger log = LoggerFactory.getLogger(CommonHelpers.class);
@@ -24,8 +22,7 @@ public class CommonHelpers {
             MODEL enrichedModel,
             Duration outdatedThreshold,
             Function<MODEL, MODEL> saveFunction,
-            Function<MODEL, MODEL> updateFunction
-    ) {
+            Function<MODEL, MODEL> updateFunction) {
         LocalDateTime now = LocalDateTime.now();
         boolean isOutdated = enrichedModel.getCreationDate().isBefore(now.minus(outdatedThreshold));
 
@@ -38,13 +35,11 @@ public class CommonHelpers {
         return isOutdated ? saveFunction.apply(enrichedModel) : updateFunction.apply(enrichedModel);
     }
 
-
     public static <T> void replaceIfNotNull(T value, Consumer<T> setter) {
         if (value != null) {
             setter.accept(value);
         }
     }
-
 
     public static void replaceIfNotNull(String value, Consumer<String> setter) {
         if (value != null && !value.isEmpty()) {
@@ -52,16 +47,17 @@ public class CommonHelpers {
         }
     }
 
-
     public static <T> void replaceIfNotNull(List<T> value, Consumer<List<T>> setter) {
         if (value != null) {
             setter.accept(value);
         }
     }
 
-    public static <T, REF extends Model<T>> void validateCatalogReference(REF reference, Function<T, REF> finder, Class<?> clazz) {
+    public static <T, REF extends Model<T>> void validateCatalogReference(REF reference, Function<T, REF> finder,
+            Class<?> clazz) {
         log.info(VALIDATING_EXISTENCE_OF_ENTITY, clazz.getSimpleName(), reference.getId());
-        if (finder.apply(reference.getId()) == null) throw new EntityNotFoundException(clazz.getSimpleName());
+        if (finder.apply(reference.getId()) == null)
+            throw new EntityNotFoundException(clazz.getSimpleName());
     }
 
 }

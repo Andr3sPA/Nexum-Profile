@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FamilyInformationBeanConfiguration {
     @Bean
-    public FamilyInformationServicePort familyInformationServicePort(
+FamilyInformationServicePort familyInformationServicePort(
             FamilyInformationPersistencePort familyInformationPersistencePort
     ) {
         return new FamilyInformationUseCase(

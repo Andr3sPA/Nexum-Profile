@@ -43,8 +43,7 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
             IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort,
             AuthenticationSecurityPort authenticationSecurityPort,
             ProgramVersionPersistencePort programVersionPersistencePort,
-            AuthPersistencePort authPersistencePort
-    ) {
+            AuthPersistencePort authPersistencePort) {
         this.userPersistencePort = userPersistencePort;
         this.identityDocumentTypePersistencePort = identityDocumentTypePersistencePort;
         this.authenticationSecurityPort = authenticationSecurityPort;
@@ -55,7 +54,8 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
     @Override
     public User findById(UUID uuid) {
         User user = super.findById(uuid);
-        IdentityDocumentType type = identityDocumentTypePersistencePort.findById(user.getIdentityDocumentType().getId());
+        IdentityDocumentType type = identityDocumentTypePersistencePort
+                .findById(user.getIdentityDocumentType().getId());
         user.setIdentityDocumentType(type);
         return user;
     }
@@ -72,7 +72,8 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
 
     @Override
     protected User loadAssociations(User user) {
-        IdentityDocumentType type = identityDocumentTypePersistencePort.findById(user.getIdentityDocumentType().getId());
+        IdentityDocumentType type = identityDocumentTypePersistencePort
+                .findById(user.getIdentityDocumentType().getId());
         user.setIdentityDocumentType(type);
         return user;
     }
@@ -95,7 +96,8 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
     protected void validateEntity(UUID currentId, User user) {
         User existingByDocument = userPersistencePort.findByIdentityDocument(user.getIdentityDocument());
         if (existingByDocument != null && !existingByDocument.getId().equals(currentId))
-            throw new EntityAlreadyExistsException(getModelClassName(), IDENTITY_DOCUMENT_ATTRIBUTE, user.getIdentityDocument());
+            throw new EntityAlreadyExistsException(getModelClassName(), IDENTITY_DOCUMENT_ATTRIBUTE,
+                    user.getIdentityDocument());
     }
 
     @Override
@@ -154,7 +156,8 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
     }
 
     private boolean programVersionFilterByProgramId(UserFilter filter, FullProgramVersion version) {
-        return Objects.equals(version.getProgram().getId(), filter.getProgramId());
+        return Arrays.stream(filter.getProgramIds())
+                .anyMatch(version.getProgram().getId()::equals);
     }
 
     private BasicUser parseFull2Basic(FullUser user, Map<Long, FullProgramVersion> catalog) {
@@ -188,12 +191,12 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .build();
     }
 
-
     private List<BasicProgram> getBasicPrograms(Map<Long, FullProgramVersion> catalog, List<CoursedProgram> versions) {
         return versions.stream()
                 .map(version -> {
                     FullProgramVersion item = catalog.get(version.getProgramVersion().getId());
-                    if (item == null || item.getProgram() == null) return null;
+                    if (item == null || item.getProgram() == null)
+                        return null;
                     return BasicProgram.builder()
                             .code(item.getProgram().getCode())
                             .name(item.getProgram().getName())

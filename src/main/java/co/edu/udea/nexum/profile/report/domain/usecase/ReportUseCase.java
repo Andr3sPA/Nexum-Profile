@@ -32,8 +32,7 @@ public class ReportUseCase implements ReportServicePort {
 
     public ReportUseCase(
             UserPersistencePort userPersistencePort,
-            ReportGenerationPort reportGenerationPort, ProgramVersionPersistencePort programVersionPersistencePort
-    ) {
+            ReportGenerationPort reportGenerationPort, ProgramVersionPersistencePort programVersionPersistencePort) {
         this.userPersistencePort = userPersistencePort;
         this.reportGenerationPort = reportGenerationPort;
         this.programVersionPersistencePort = programVersionPersistencePort;
@@ -55,7 +54,7 @@ public class ReportUseCase implements ReportServicePort {
         Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
                 .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
         List<Long> versionIds = programVersions.stream()
-                .filter(version -> Objects.equals(version.getProgram().getId(), filter.getProgramId()))
+                .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
                 .map(FullProgramVersion::getId)
                 .toList();
         filter.setProgramVersionIds(versionIds);
@@ -63,7 +62,7 @@ public class ReportUseCase implements ReportServicePort {
 
         String programName = programVersions.stream()
                 .findFirst()
-                .filter(version -> Objects.equals(version.getProgram().getId(), filter.getProgramId()))
+                .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
                 .map(p -> p.getProgram().getName())
                 .orElse(ALL_STRING);
 
@@ -83,14 +82,14 @@ public class ReportUseCase implements ReportServicePort {
     private Function<FullUser, FullUser> enrichFullUser(Map<Long, FullProgramVersion> programVersionMap) {
         return user -> {
             List<CoursedProgram> coursedPrograms = user.getCoursedPrograms().stream()
-                    .map(mapFullProgramVersionToSimple(programVersionMap)
-                    ).toList();
+                    .map(mapFullProgramVersionToSimple(programVersionMap)).toList();
             user.setCoursedPrograms(coursedPrograms);
             return user;
         };
     }
 
-    private Function<CoursedProgram, CoursedProgram> mapFullProgramVersionToSimple(Map<Long, FullProgramVersion> programVersionMap) {
+    private Function<CoursedProgram, CoursedProgram> mapFullProgramVersionToSimple(
+            Map<Long, FullProgramVersion> programVersionMap) {
         return program -> {
             FullProgramVersion version = programVersionMap.getOrDefault(program.getProgramVersion().getId(), null);
             program.setProgramVersion(
@@ -98,8 +97,7 @@ public class ReportUseCase implements ReportServicePort {
                             .id(version.getId())
                             .name(version.getProgram().getName())
                             .version(version.getVersion())
-                            .build()
-            );
+                            .build());
             return program;
         };
     }
@@ -108,8 +106,7 @@ public class ReportUseCase implements ReportServicePort {
             List<FullUser> users,
             UserFilter filter,
             String program,
-            List<ReportUser> dataList
-    ) {
+            List<ReportUser> dataList) {
         final long total = users.size();
         Map<Gender, Long> genderCounts = users.stream()
                 .filter(u -> u.getGender() != null)
@@ -119,7 +116,6 @@ public class ReportUseCase implements ReportServicePort {
         final Long man = genderCounts.getOrDefault(Gender.MALE, DEFAULT_COUNT_VALUE);
         final Long nonBinary = genderCounts.getOrDefault(Gender.NON_BINARY, DEFAULT_COUNT_VALUE);
         final Long other = genderCounts.getOrDefault(Gender.OTHER, DEFAULT_COUNT_VALUE);
-
 
         return GraduateReport.builder()
                 .users(dataList)
@@ -142,9 +138,9 @@ public class ReportUseCase implements ReportServicePort {
                 .build();
     }
 
-
     private double percentage(long count, long total) {
-        if (total <= ZERO) return ZERO_PERCENTAGE;
+        if (total <= ZERO)
+            return ZERO_PERCENTAGE;
         return BigDecimal.valueOf(count)
                 .multiply(BigDecimal.valueOf(ONE_HUNDRED))
                 .divide(BigDecimal.valueOf(total), DEFAULT_SCALE, RoundingMode.HALF_UP)

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class GraduateParticipationBeanConfiguration {
 
     @Bean
-    public GraduateParticipationServicePort graduateParticipationServicePort(
+GraduateParticipationServicePort graduateParticipationServicePort(
             GraduateParticipationPersistencePort graduateParticipationPersistencePort,
             UserPersistencePort userPersistencePort
     ) {

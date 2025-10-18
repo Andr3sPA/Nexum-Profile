@@ -4,13 +4,11 @@ import co.edu.udea.nexum.profile.common.domain.api.BaseCrudServicePort;
 import co.edu.udea.nexum.profile.common.domain.exception.EntityNotFoundException;
 import co.edu.udea.nexum.profile.common.domain.model.Model;
 import co.edu.udea.nexum.profile.common.domain.spi.BaseCrudPersistencePort;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-@Slf4j
 public abstract class BaseCrudUseCase<ID, MODEL extends Model<ID>> implements BaseCrudServicePort<ID, MODEL> {
 
     private static final Logger log = LoggerFactory.getLogger(BaseCrudUseCase.class);

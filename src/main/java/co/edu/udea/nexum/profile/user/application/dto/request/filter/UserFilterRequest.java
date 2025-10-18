@@ -38,7 +38,7 @@ public class UserFilterRequest {
     // Coursed Program
     private Integer startYear;
     private Integer endYear;
-    private Long programId;
+    private Long[] programIds;
 
     // Contact
     private String address;

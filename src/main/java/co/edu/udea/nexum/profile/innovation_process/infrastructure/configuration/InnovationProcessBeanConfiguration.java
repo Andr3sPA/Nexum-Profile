@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class InnovationProcessBeanConfiguration {
 
     @Bean
-    public InnovationProcessServicePort innovationProcessServicePort(
+InnovationProcessServicePort innovationProcessServicePort(
             InnovationProcessPersistencePort innovationProcessPersistencePort,
             InnovationProcessTypePersistencePort innovationProcessTypePersistencePort,
             UserPersistencePort userPersistencePort

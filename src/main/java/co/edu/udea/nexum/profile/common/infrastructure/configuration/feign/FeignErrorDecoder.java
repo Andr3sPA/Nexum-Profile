@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.Generated;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.HttpStatus;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 
 import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.ConfigurationConstants.*;
 
-@Slf4j
 @Generated
 public class FeignErrorDecoder implements ErrorDecoder {
 
@@ -35,22 +33,18 @@ public class FeignErrorDecoder implements ErrorDecoder {
 
         return switch (response.status()) {
             case HttpStatus.SC_NOT_FOUND ->
-                    new EntityNotFoundException(
-                            exceptionResponse != null ? exceptionResponse.getMessage() : ENTITY_NOT_FOUND,
-                            CUSTOM_MESSAGE
-                    );
+                new EntityNotFoundException(
+                        exceptionResponse != null ? exceptionResponse.getMessage() : ENTITY_NOT_FOUND,
+                        CUSTOM_MESSAGE);
             case HttpStatus.SC_CONFLICT ->
-                    new EntityAlreadyExistsException(
-                            exceptionResponse != null ? exceptionResponse.getMessage() : ENTITY_NOT_FOUND
-                    );
+                new EntityAlreadyExistsException(
+                        exceptionResponse != null ? exceptionResponse.getMessage() : ENTITY_NOT_FOUND);
             case HttpStatus.SC_SERVER_ERROR ->
-                    new RuntimeException(
-                            exceptionResponse != null ? exceptionResponse.getMessage() : SERVER_ERROR
-                    );
+                new RuntimeException(
+                        exceptionResponse != null ? exceptionResponse.getMessage() : SERVER_ERROR);
             default ->
-                    new RuntimeException(
-                            exceptionResponse != null ? exceptionResponse.getMessage() : UNKNOWN_ERROR
-                    );
+                new RuntimeException(
+                        exceptionResponse != null ? exceptionResponse.getMessage() : UNKNOWN_ERROR);
         };
     }
 

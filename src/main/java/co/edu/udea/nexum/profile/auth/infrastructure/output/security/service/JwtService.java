@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
 
-@Slf4j
 @Service
 public class JwtService {
 
@@ -67,7 +65,8 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         try {
-            return Jwts.parser().verifyWith((SecretKey) getSignatureKey()).build().parseSignedClaims(token).getPayload();
+            return Jwts.parser().verifyWith((SecretKey) getSignatureKey()).build().parseSignedClaims(token)
+                    .getPayload();
         } catch (SecurityException e) {
             throw new InvalidTokenException();
         }

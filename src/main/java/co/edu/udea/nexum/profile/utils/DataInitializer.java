@@ -24,9 +24,10 @@ public class DataInitializer {
     private final AuthHandler authHandler;
 
     @Bean
-    public CommandLineRunner init() {
+    CommandLineRunner init() {
         return args -> {
-            if (roleRepository.count() > 0) return;
+            if (roleRepository.count() > 0)
+                return;
 
             log.info(INITIALIZING_DATA);
 
@@ -45,7 +46,7 @@ public class DataInitializer {
         initializeMockAdmin();
     }
 
-    private void initializeMockAdmin(){
+    private void initializeMockAdmin() {
         authHandler.registerAdministrative(
                 UserRegisterRequest.builder()
                         .name("Nexum")
@@ -57,8 +58,7 @@ public class DataInitializer {
                         .identityDocument("0000000000")
                         .idIdentityDocumentType(1L)
                         .gender("otro")
-                        .build()
-        );
+                        .build());
     }
 
     public static final String INITIALIZING_DATA = "Initializing data ...";

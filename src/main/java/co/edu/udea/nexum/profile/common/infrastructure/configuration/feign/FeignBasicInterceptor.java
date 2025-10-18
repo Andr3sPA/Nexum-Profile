@@ -13,14 +13,13 @@ import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.Co
 @Generated
 public class FeignBasicInterceptor {
     @Bean
-    public RequestInterceptor feignInterceptor() {
+    RequestInterceptor feignInterceptor() {
         return requestTemplate -> {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.isAuthenticated()) {
                 requestTemplate.header(
                         AUTHORIZATION_HEADER,
-                        TOKEN_PREFIX + TokenContext.getToken()
-                );
+                        TOKEN_PREFIX + TokenContext.getToken());
             }
         };
     }
