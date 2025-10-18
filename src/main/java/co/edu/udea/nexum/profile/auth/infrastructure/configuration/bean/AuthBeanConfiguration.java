@@ -3,6 +3,7 @@ package co.edu.udea.nexum.profile.auth.infrastructure.configuration.bean;
 import co.edu.udea.nexum.profile.auth.domain.api.AuthCrudServicePort;
 import co.edu.udea.nexum.profile.auth.domain.api.AuthServicePort;
 import co.edu.udea.nexum.profile.auth.domain.api.TokenServicePort;
+import co.edu.udea.nexum.profile.auth.domain.spi.email.EmailServicePort;
 import co.edu.udea.nexum.profile.auth.domain.spi.persistence.AuthPersistencePort;
 import co.edu.udea.nexum.profile.auth.domain.spi.persistence.RolePersistencePort;
 import co.edu.udea.nexum.profile.auth.domain.spi.security.AuthenticationSecurityPort;
@@ -12,6 +13,7 @@ import co.edu.udea.nexum.profile.auth.domain.usecase.AuthUseCase;
 import co.edu.udea.nexum.profile.auth.domain.usecase.TokenUseCase;
 import co.edu.udea.nexum.profile.user.domain.spi.IdentityDocumentTypePersistencePort;
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,14 +25,18 @@ public class AuthBeanConfiguration {
             AuthenticationSecurityPort authenticationSecurityPort,
             RolePersistencePort rolePersistencePort,
             UserPersistencePort userPersistencePort,
-            IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort
+            IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort,
+            EmailServicePort emailServicePort,
+            PasswordEncoder passwordEncoder
     ) {
         return new AuthUseCase(
                 authPersistencePort,
                 authenticationSecurityPort,
                 rolePersistencePort,
                 userPersistencePort,
-                identityDocumentTypePersistencePort
+                identityDocumentTypePersistencePort,
+                emailServicePort,
+                passwordEncoder
         );
     }
 

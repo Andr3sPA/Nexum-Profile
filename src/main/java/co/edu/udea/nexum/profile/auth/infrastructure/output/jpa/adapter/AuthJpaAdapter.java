@@ -43,6 +43,13 @@ public class AuthJpaAdapter extends BaseCrudAdapterImpl<UUID, Auth, AuthEntity> 
     }
 
     @Override
+    public Auth findByVerificationToken(String token) {
+        return authRepository.findByVerificationToken(token)
+                .map(authEntityMapper::toDomain)
+                .orElse(null);
+    }
+
+    @Override
     public DomainPage<Auth> findAll(AuthFilter filter, PaginationData paginationData) {
         Pageable pageable = paginationDataMapper.toJPA(paginationData).createPageable();
 

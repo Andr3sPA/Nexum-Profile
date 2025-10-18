@@ -26,6 +26,19 @@ import org.springframework.web.bind.annotation.*;
 import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.*;
 import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.CommonRestConstants.*;
 
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.VERIFY_ACCOUNT_PATH;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.REQUEST_PASSWORD_RESET_PATH;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.RESET_PASSWORD_PATH;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.VERIFY_ACCOUNT_SUMMARY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.REQUEST_PASSWORD_RESET_SUMMARY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.RESET_PASSWORD_SUMMARY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.VERIFY_ACCOUNT_SUCCESSFULLY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.REQUEST_PASSWORD_RESET_SUCCESSFULLY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.RESET_PASSWORD_SUCCESSFULLY;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.VERIFY_ACCOUNT_NOT_FOUND;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.REQUEST_PASSWORD_RESET_NOT_FOUND;
+import static co.edu.udea.nexum.profile.auth.infrastructure.utils.constants.AuthRestConstants.RESET_PASSWORD_NOT_FOUND;
+
 import java.util.UUID;
 
 @RestController
@@ -214,6 +227,60 @@ public class AuthController {
         return ResponseEntity.ok(
                 authHandler.getByUserId(userId)
         );
+    }
+
+    @Operation(summary = VERIFY_ACCOUNT_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = VERIFY_ACCOUNT_SUCCESSFULLY
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_NOT_FOUND,
+                    description = VERIFY_ACCOUNT_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @GetMapping(VERIFY_ACCOUNT_PATH)
+    public ResponseEntity<Void> verifyAccount(@RequestParam String token) {
+        authHandler.verifyAccount(token);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = REQUEST_PASSWORD_RESET_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = REQUEST_PASSWORD_RESET_SUCCESSFULLY
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_NOT_FOUND,
+                    description = REQUEST_PASSWORD_RESET_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PostMapping(REQUEST_PASSWORD_RESET_PATH)
+    public ResponseEntity<Void> requestPasswordReset(@RequestParam String email) {
+        authHandler.requestPasswordReset(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = RESET_PASSWORD_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = RESET_PASSWORD_SUCCESSFULLY
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_NOT_FOUND,
+                    description = RESET_PASSWORD_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PostMapping(RESET_PASSWORD_PATH)
+    public ResponseEntity<Void> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        authHandler.resetPassword(token, newPassword);
+        return ResponseEntity.ok().build();
     }
 
 

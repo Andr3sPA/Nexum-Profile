@@ -117,9 +117,24 @@ public class AuthHandlerImpl implements AuthHandler {
         authServicePort.getAuthenticatedUser());
   }
 
-  @Override
-  public AuthResponse getByUserId(UUID userId) {
-    return authResponseMapper.toResponse(
-        authServicePort.getByUserId(userId));
-  }
+    @Override
+    public AuthResponse getByUserId(UUID userId) {
+        return authResponseMapper.toResponse(
+            authServicePort.getByUserId(userId));
+    }
+
+    @Override
+    public void verifyAccount(String token) {
+        authServicePort.verifyAccount(token);
+    }
+
+    @Override
+    public void requestPasswordReset(String email) {
+        authServicePort.requestPasswordReset(email);
+    }
+
+    @Override
+    public void resetPassword(String token, String newPassword) {
+        authServicePort.resetPassword(token, newPassword);
+    }
 }

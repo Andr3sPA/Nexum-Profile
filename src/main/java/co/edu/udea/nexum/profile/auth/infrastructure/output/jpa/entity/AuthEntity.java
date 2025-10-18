@@ -51,6 +51,12 @@ public class AuthEntity implements NexumEntity<UUID> {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "verified", nullable = false)
+    private boolean verified;
+
+    @Column(name = "verification_token")
+    private String verificationToken;
+
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
 

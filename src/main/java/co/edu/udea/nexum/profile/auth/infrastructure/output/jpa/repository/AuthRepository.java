@@ -17,5 +17,7 @@ public interface AuthRepository extends JpaRepository<AuthEntity, UUID> {
 
     Optional<AuthEntity> findByUser_Id(UUID userId);
 
+    Optional<AuthEntity> findByVerificationToken(String token);
+
     Page<AuthEntity> findAll(Specification<AuthEntity> spec, Pageable pageable);
 }

@@ -11,5 +11,6 @@ import java.util.UUID;
 public interface AuthPersistencePort extends BaseCrudPersistencePort<UUID, Auth> {
     Auth findByEmail(String email);
     Auth findByUserId(UUID id);
+    Auth findByVerificationToken(String token);
     DomainPage<Auth> findAll(AuthFilter filter, PaginationData paginationData);
 }

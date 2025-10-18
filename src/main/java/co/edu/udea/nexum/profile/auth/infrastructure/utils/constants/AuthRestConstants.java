@@ -20,6 +20,9 @@ public class AuthRestConstants {
     public static final String REGISTER_EMPLOYER_PATH = "/register/employer";
     public static final String AUTHENTICATED_USER = "/authenticated-user";
     public static final String GET_AUTH_BY_USER_ID = "/by-user-id/{userId}";
+    public static final String VERIFY_ACCOUNT_PATH = "/verify";
+    public static final String REQUEST_PASSWORD_RESET_PATH = "/request-password-reset";
+    public static final String RESET_PASSWORD_PATH = "/reset-password";
 
     public static final String SWAGGER_REGISTER_ADMINISTRATIVE_SUMMARY = "Registrar un Administrativo";
     public static final String SWAGGER_REGISTER_ADMINISTRATIVE_SUCCESSFULLY = "El usuario Administrativo ha sido registrado";
@@ -42,6 +45,18 @@ public class AuthRestConstants {
     public static final String GET_AUTH_BY_USER_ID_SUMMARY = "Buscar credencial de autenticación por ID de usuario";
     public static final String GET_AUTH_BY_USER_ID_SUCCESSFULLY = "La credencial fue encontrada correctamente";
     public static final String GET_AUTH_BY_USER_ID_NOT_FOUND = "La credencial no fue encontrada";
+
+    public static final String VERIFY_ACCOUNT_SUMMARY = "Verificar cuenta con token";
+    public static final String VERIFY_ACCOUNT_SUCCESSFULLY = "Cuenta verificada exitosamente";
+    public static final String VERIFY_ACCOUNT_NOT_FOUND = "Token no encontrado";
+
+    public static final String REQUEST_PASSWORD_RESET_SUMMARY = "Solicitar restablecimiento de contraseña";
+    public static final String REQUEST_PASSWORD_RESET_SUCCESSFULLY = "Correo de restablecimiento enviado";
+    public static final String REQUEST_PASSWORD_RESET_NOT_FOUND = "Usuario no encontrado";
+
+    public static final String RESET_PASSWORD_SUMMARY = "Restablecer contraseña con token";
+    public static final String RESET_PASSWORD_SUCCESSFULLY = "Contraseña restablecida exitosamente";
+    public static final String RESET_PASSWORD_NOT_FOUND = "Token no encontrado";
 
 
     public static final String ACCOUNT_CONTROLLER_PATH = "/v1/accounts";

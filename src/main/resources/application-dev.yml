@@ -23,6 +23,9 @@ spring:
     ansi:
       enabled: ALWAYS
 
+brevo:
+  api-key: ${BREVO_API_KEY}
+
 logging:
   level:
     root: debug

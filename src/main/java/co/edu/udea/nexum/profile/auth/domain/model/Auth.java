@@ -16,6 +16,8 @@ public class Auth implements Model<UUID>, AuditableModel {
     private Role role;
     private String email;
     private String password;
+    private boolean verified;
+    private String verificationToken;
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdate;
 
@@ -26,6 +28,8 @@ public class Auth implements Model<UUID>, AuditableModel {
         this.role = builder.role;
         this.email = builder.email;
         this.password = builder.password;
+        this.verified = builder.verified;
+        this.verificationToken = builder.verificationToken;
         this.creationDate = builder.creationDate;
         this.lastUpdate = builder.lastUpdate;
     }
@@ -72,6 +76,22 @@ public class Auth implements Model<UUID>, AuditableModel {
         this.password = password;
     }
 
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
     @Override
     public LocalDateTime getCreationDate() {
         return creationDate;
@@ -102,6 +122,8 @@ public class Auth implements Model<UUID>, AuditableModel {
         private Role role;
         private String email;
         private String password;
+        private boolean verified;
+        private String verificationToken;
         private LocalDateTime creationDate;
         private LocalDateTime lastUpdate;
 
@@ -127,6 +149,16 @@ public class Auth implements Model<UUID>, AuditableModel {
 
         public AuthBuilder password(String password) {
             this.password = password;
+            return this;
+        }
+
+        public AuthBuilder verified(boolean verified) {
+            this.verified = verified;
+            return this;
+        }
+
+        public AuthBuilder verificationToken(String verificationToken) {
+            this.verificationToken = verificationToken;
             return this;
         }
 
