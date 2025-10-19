@@ -53,18 +53,22 @@ public class ReportUseCase implements ReportServicePort {
         List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
         Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
                 .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
-        List<Long> versionIds = programVersions.stream()
-                .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
-                .map(FullProgramVersion::getId)
-                .toList();
-        filter.setProgramVersionIds(versionIds);
+        if (filter.getProgramIds() != null && filter.getProgramIds().length > 0) {
+            List<Long> versionIds = programVersions.stream()
+                    .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
+                    .map(FullProgramVersion::getId)
+                    .toList();
+            filter.setProgramVersionIds(versionIds);
+        }
         filter.setRole(RoleName.GRADUATE);
 
-        String programName = programVersions.stream()
-                .findFirst()
-                .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
-                .map(p -> p.getProgram().getName())
-                .orElse(ALL_STRING);
+        String programName = (filter.getProgramIds() == null || filter.getProgramIds().length == 0)
+                ? ALL_STRING
+                : programVersions.stream()
+                        .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
+                        .findFirst()
+                        .map(p -> p.getProgram().getName())
+                        .orElse(ALL_STRING);
 
         List<FullUser> fullUsers = userPersistencePort.findAllFilteredForReport(filter);
 

@@ -5,6 +5,7 @@ import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,4 +25,7 @@ public class BasicUser {
     private String country;
     private String city;
     private RoleName role;
+    private Integer graduationYear;
+    private LocalDateTime lastUpdateDate;
+    private String company;
 }

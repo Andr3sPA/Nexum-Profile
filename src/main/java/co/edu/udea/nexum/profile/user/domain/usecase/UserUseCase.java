@@ -14,6 +14,7 @@ import co.edu.udea.nexum.profile.contact_information.domain.model.ContactInforma
 import co.edu.udea.nexum.profile.coursed_program.domain.model.CoursedProgram;
 import co.edu.udea.nexum.profile.coursed_program.domain.model.aggregate.FullProgramVersion;
 import co.edu.udea.nexum.profile.coursed_program.domain.spi.ProgramVersionPersistencePort;
+import co.edu.udea.nexum.profile.job.domain.model.Job;
 import co.edu.udea.nexum.profile.user.domain.api.UserServicePort;
 import co.edu.udea.nexum.profile.user.domain.model.IdentityDocumentType;
 import co.edu.udea.nexum.profile.user.domain.model.User;
@@ -24,6 +25,7 @@ import co.edu.udea.nexum.profile.user.domain.model.full.FullUser;
 import co.edu.udea.nexum.profile.user.domain.spi.IdentityDocumentTypePersistencePort;
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -133,12 +135,14 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
         List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
         Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
                 .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
-        List<FullProgramVersion> objectiveVersions = programVersionPersistencePort.findAll().stream()
-                .filter(version -> programVersionFilterByProgramId(filter, version))
-                .toList();
-        filter.setProgramVersionIds(objectiveVersions.stream()
-                .map(FullProgramVersion::getId)
-                .toList());
+        if (filter.getProgramIds() != null && filter.getProgramIds().length > 0) {
+            List<FullProgramVersion> objectiveVersions = programVersionPersistencePort.findAll().stream()
+                    .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
+                    .toList();
+            filter.setProgramVersionIds(objectiveVersions.stream()
+                    .map(FullProgramVersion::getId)
+                    .toList());
+        }
 
         DomainPage<FullUser> page = userPersistencePort.findAllFiltered(filter, paginationData);
         List<BasicUser> basicUsers = page.getContent().stream()
@@ -155,10 +159,7 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .build();
     }
 
-    private boolean programVersionFilterByProgramId(UserFilter filter, FullProgramVersion version) {
-        return Arrays.stream(filter.getProgramIds())
-                .anyMatch(version.getProgram().getId()::equals);
-    }
+
 
     private BasicUser parseFull2Basic(FullUser user, Map<Long, FullProgramVersion> catalog) {
         ContactInformation current = Optional.ofNullable(user.getContactInformationList())
@@ -174,6 +175,21 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .getRole()
                 .getName();
 
+        Integer graduationYear = Optional.ofNullable(user.getCoursedPrograms())
+                .orElseGet(List::of).stream()
+                .filter(Objects::nonNull)
+                .mapToInt(CoursedProgram::getGraduationYear)
+                .max()
+                .orElse(0);
+
+        String company = Optional.ofNullable(user.getJobs())
+                .orElseGet(List::of).stream()
+                .filter(Objects::nonNull)
+                .filter(Job::getCurrentJob)
+                .findFirst()
+                .map(Job::getCompanyName)
+                .orElse(null);
+
         return BasicUser.builder()
                 .id(user.getId())
                 .name(user.getName())
@@ -188,6 +204,9 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .country(current.getCountry())
                 .city(current.getCity())
                 .role(roleName)
+                .graduationYear(graduationYear)
+                .lastUpdateDate(user.getLastUpdate())
+                .company(company)
                 .build();
     }
 
