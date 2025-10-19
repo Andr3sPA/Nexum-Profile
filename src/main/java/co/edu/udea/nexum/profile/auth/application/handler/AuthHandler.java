@@ -16,7 +16,8 @@ public interface AuthHandler {
     AuthenticatedUserResponse login(AuthenticationRequest request);
     AuthenticatedUserResponse getAuthenticatedUser();
     AuthResponse getByUserId(UUID userId);
-    void verifyAccount(String token);
+    void verifyAccount(String email, String token);
     void requestPasswordReset(String email);
     void resetPassword(String token, String newPassword);
+    void resendVerification(String email);
 }

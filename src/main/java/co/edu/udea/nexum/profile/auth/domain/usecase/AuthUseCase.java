@@ -100,9 +100,12 @@ public class AuthUseCase implements AuthServicePort {
     }
 
     @Override
-    public void verifyAccount(String token) {
-        Auth auth = authPersistencePort.findByVerificationToken(token);
-        if (auth == null) throw new EntityNotFoundException("Verification token not found");
+    public void verifyAccount(String email, String token) {
+        Auth auth = authPersistencePort.findByEmail(email);
+        if (auth == null) throw new EntityNotFoundException(Auth.class.getSimpleName(), EMAIL_ATTRIBUTE, email);
+        // token must match the one stored for that email
+        if (auth.getVerificationToken() == null || !auth.getVerificationToken().equals(token))
+            throw new EntityNotFoundException("Verification token not found");
         auth.setVerified(true);
         auth.setVerificationToken(null);
         auth.setLastUpdate(LocalDateTime.now());
@@ -119,6 +122,21 @@ public class AuthUseCase implements AuthServicePort {
         auth.setLastUpdate(LocalDateTime.now());
         authPersistencePort.save(auth);
         emailServicePort.sendPasswordResetEmail(email, token);
+    }
+
+    @Override
+    public void resendVerification(String email) {
+        Auth auth = authPersistencePort.findByEmail(email);
+        if (auth == null) throw new EntityNotFoundException(Auth.class.getSimpleName(), EMAIL_ATTRIBUTE, email);
+        // If already verified, do nothing
+        if (auth.isVerified()) {
+            return;
+        }
+        String token = java.util.UUID.randomUUID().toString();
+        auth.setVerificationToken(token);
+        auth.setLastUpdate(LocalDateTime.now());
+        authPersistencePort.save(auth);
+        emailServicePort.sendVerificationEmail(email, token);
     }
 
     @Override
@@ -167,8 +185,11 @@ public class AuthUseCase implements AuthServicePort {
         auth.setUser(savedUser);
         auth.setCreationDate(now);
         auth.setLastUpdate(now);
+        // Save auth but DO NOT send verification email here. The verification token
+        // will be generated and sent only when the client calls the resend/obtain endpoint.
+        auth.setVerified(false);
+        auth.setVerificationToken(null);
         Auth savedAuth = authPersistencePort.save(auth);
-        setupVerification(savedAuth);
 
         return savedUser;
     }
@@ -186,8 +207,10 @@ public class AuthUseCase implements AuthServicePort {
         auth.setUser(existingUser);
         auth.setCreationDate(now);
         auth.setLastUpdate(now);
+        // Save auth for existing user, but do NOT send verification email automatically.
+        auth.setVerified(false);
+        auth.setVerificationToken(null);
         Auth savedAuth = authPersistencePort.save(auth);
-        setupVerification(savedAuth);
 
         return existingUser;
     }

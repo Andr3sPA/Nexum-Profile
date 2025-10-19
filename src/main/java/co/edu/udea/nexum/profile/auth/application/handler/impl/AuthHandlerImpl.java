@@ -124,8 +124,8 @@ public class AuthHandlerImpl implements AuthHandler {
     }
 
     @Override
-    public void verifyAccount(String token) {
-        authServicePort.verifyAccount(token);
+    public void verifyAccount(String email, String token) {
+        authServicePort.verifyAccount(email, token);
     }
 
     @Override
@@ -136,5 +136,10 @@ public class AuthHandlerImpl implements AuthHandler {
     @Override
     public void resetPassword(String token, String newPassword) {
         authServicePort.resetPassword(token, newPassword);
+    }
+
+    @Override
+    public void resendVerification(String email) {
+        authServicePort.resendVerification(email);
     }
 }

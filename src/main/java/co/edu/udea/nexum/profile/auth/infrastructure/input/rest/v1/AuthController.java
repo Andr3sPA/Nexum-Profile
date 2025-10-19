@@ -242,8 +242,8 @@ public class AuthController {
             ),
     })
     @GetMapping(VERIFY_ACCOUNT_PATH)
-    public ResponseEntity<Void> verifyAccount(@RequestParam String token) {
-        authHandler.verifyAccount(token);
+    public ResponseEntity<Void> verifyAccount(@RequestParam String email, @RequestParam String token) {
+        authHandler.verifyAccount(email, token);
         return ResponseEntity.ok().build();
     }
 
@@ -262,6 +262,24 @@ public class AuthController {
     @PostMapping(REQUEST_PASSWORD_RESET_PATH)
     public ResponseEntity<Void> requestPasswordReset(@RequestParam String email) {
         authHandler.requestPasswordReset(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = RESEND_VERIFICATION_SUMMARY)
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_OK,
+                    description = RESEND_VERIFICATION_SUCCESSFULLY
+            ),
+            @ApiResponse(
+                    responseCode = SWAGGER_CODE_NOT_FOUND,
+                    description = RESEND_VERIFICATION_NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PostMapping(RESEND_VERIFICATION_PATH)
+    public ResponseEntity<Void> resendVerification(@RequestParam String email) {
+        authHandler.resendVerification(email);
         return ResponseEntity.ok().build();
     }
 

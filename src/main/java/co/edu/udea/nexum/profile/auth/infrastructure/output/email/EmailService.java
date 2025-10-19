@@ -47,12 +47,13 @@ public class EmailService {
             SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
             sendSmtpEmail.setSender(sender);
             sendSmtpEmail.setTo(Collections.singletonList(recipient));
-            sendSmtpEmail.setSubject("Verifica tu cuenta - Nexum Profile");
+            sendSmtpEmail.setSubject("Código de verificación - Nexum Profile");
 
-            String htmlContent = "<p>Haz clic en el siguiente enlace para verificar tu cuenta:</p>" +
-                    "<p><a href=\"%s/auth/verify?token=%s\">Verificar cuenta</a></p>" +
-                    "<p>Si no puedes hacer clic, copia y pega este enlace en tu navegador: http://localhost:8100/nexum/api/v1/auth/verify?token=%s</p>";
-            htmlContent = String.format(htmlContent, frontUrl);
+            // Send only the verification code (token) and a short instruction — no URL.
+            String htmlContent = "<p>Tu código de verificación es:</p>" +
+                    "<p><strong>%s</strong></p>" +
+                    "<p>Ingresa este código en la aplicación para verificar tu cuenta. Si no solicitaste este código, ignora este correo.</p>";
+            htmlContent = String.format(htmlContent, token);
 
             sendSmtpEmail.setHtmlContent(htmlContent);
 

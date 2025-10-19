@@ -23,6 +23,7 @@ public class AuthRestConstants {
     public static final String VERIFY_ACCOUNT_PATH = "/verify";
     public static final String REQUEST_PASSWORD_RESET_PATH = "/request-password-reset";
     public static final String RESET_PASSWORD_PATH = "/reset-password";
+    public static final String RESEND_VERIFICATION_PATH = "/resend-verification";
 
     public static final String SWAGGER_REGISTER_ADMINISTRATIVE_SUMMARY = "Registrar un Administrativo";
     public static final String SWAGGER_REGISTER_ADMINISTRATIVE_SUCCESSFULLY = "El usuario Administrativo ha sido registrado";
@@ -57,6 +58,9 @@ public class AuthRestConstants {
     public static final String RESET_PASSWORD_SUMMARY = "Restablecer contraseña con token";
     public static final String RESET_PASSWORD_SUCCESSFULLY = "Contraseña restablecida exitosamente";
     public static final String RESET_PASSWORD_NOT_FOUND = "Token no encontrado";
+    public static final String RESEND_VERIFICATION_SUMMARY = "Reenviar código de verificación";
+    public static final String RESEND_VERIFICATION_SUCCESSFULLY = "Correo de verificación reenviado";
+    public static final String RESEND_VERIFICATION_NOT_FOUND = "Usuario no encontrado";
 
 
     public static final String ACCOUNT_CONTROLLER_PATH = "/v1/accounts";

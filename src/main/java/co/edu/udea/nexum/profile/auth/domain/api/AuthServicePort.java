@@ -13,7 +13,8 @@ public interface AuthServicePort {
     AuthenticatedUser login(String email, String password);
     AuthenticatedUser getAuthenticatedUser();
     Auth getByUserId(UUID userId);
-    void verifyAccount(String token);
+    void verifyAccount(String email, String token);
     void requestPasswordReset(String email);
     void resetPassword(String token, String newPassword);
+    void resendVerification(String email);
 }
