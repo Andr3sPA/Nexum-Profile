@@ -24,8 +24,8 @@ import co.edu.udea.nexum.profile.user.domain.model.filter.UserFilter;
 import co.edu.udea.nexum.profile.user.domain.model.full.FullUser;
 import co.edu.udea.nexum.profile.user.domain.spi.IdentityDocumentTypePersistencePort;
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
+import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import static co.edu.udea.nexum.profile.common.domain.utils.functions.CommonHelpers.replaceIfNotNull;
 import static co.edu.udea.nexum.profile.user.domain.utils.constants.UserConstants.*;
 
+@Slf4j
 public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements UserServicePort {
     private final UserPersistencePort userPersistencePort;
     private final IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort;
@@ -135,9 +136,11 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
         List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
         Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
                 .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
+        log.info("ProgramIds: {}", filter.getProgramIds() == null ? "null" : Arrays.toString(filter.getProgramIds()));
         if (filter.getProgramIds() != null && filter.getProgramIds().length > 0) {
             List<FullProgramVersion> objectiveVersions = programVersionPersistencePort.findAll().stream()
-                    .filter(version -> Arrays.stream(filter.getProgramIds()).anyMatch(version.getProgram().getId()::equals))
+                    .filter(version -> Arrays.stream(filter.getProgramIds())
+                            .anyMatch(version.getProgram().getId()::equals))
                     .toList();
             filter.setProgramVersionIds(objectiveVersions.stream()
                     .map(FullProgramVersion::getId)
@@ -158,8 +161,6 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .content(basicUsers)
                 .build();
     }
-
-
 
     private BasicUser parseFull2Basic(FullUser user, Map<Long, FullProgramVersion> catalog) {
         ContactInformation current = Optional.ofNullable(user.getContactInformationList())

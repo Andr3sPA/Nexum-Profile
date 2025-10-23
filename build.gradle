@@ -129,4 +129,7 @@ tasks.named('bootRun') {
             environment key, value
         }
     }
+    jvmArgs([
+      '-Xmx512m'
+    ])
 }
