@@ -46,6 +46,7 @@ public class AuthCrudUseCase extends AuditableCrudUseCase<UUID, Auth> implements
         replaceIfNotNull(patch.getEmail(), original::setEmail);
         replaceIfNotNull(patch.getPassword(), original::setPassword);
         replaceIfNotNull(role, original::setRole);
+        replaceIfNotNull(patch.isVerified(), original::setVerified);
         return original;
     }
 

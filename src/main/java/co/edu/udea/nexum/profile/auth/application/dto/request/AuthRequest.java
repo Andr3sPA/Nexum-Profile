@@ -11,4 +11,5 @@ public class AuthRequest implements BaseRequest {
     private String email;
     private String password;
     private RoleName role;
+    private Boolean verified;
 }

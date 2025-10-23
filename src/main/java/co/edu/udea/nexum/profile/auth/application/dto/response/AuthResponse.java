@@ -15,4 +15,5 @@ public class AuthResponse implements BaseResponse {
     private String lastname;
     private String secondLastname;
     private RoleName role;
+    private Boolean verified;
 }

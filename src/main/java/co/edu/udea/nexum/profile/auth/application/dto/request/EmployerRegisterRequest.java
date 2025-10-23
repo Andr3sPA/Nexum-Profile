@@ -22,11 +22,9 @@ public class EmployerRegisterRequest implements BaseRequest {
     @NotBlank(message = AUTH_PASSWORD_FIELD_NOT_NULL_MESSAGE)
     private String password;
 
-    private String phone;
-
-    private String businessName;
-
+    // Optional: company tax id (NIT). If provided, it will be used as identity document.
     private String nit;
 
+    // Optional edit code used to link existing resources to the created employer
     private String editCode;
 }

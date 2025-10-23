@@ -151,7 +151,19 @@ public class AuthUseCase implements AuthServicePort {
     }
 
     private User register(Auth auth, User user) {
-        IdentityDocumentType type = identityDocumentTypePersistencePort.findById(user.getIdentityDocumentType().getId());
+        // If the identity document type id is 7 (NIT), avoid a remote call and construct
+        // the IdentityDocumentType locally to reduce outbound Feign calls for the
+        // common employer flow. Otherwise, fetch the type using the persistence port.
+        IdentityDocumentType type;
+        Long providedTypeId = user.getIdentityDocumentType() != null ? user.getIdentityDocumentType().getId() : null;
+        if (providedTypeId != null && providedTypeId.equals(7L)) {
+            type = IdentityDocumentType.builder()
+                    .id(7L)
+                    .documentType(co.edu.udea.nexum.profile.user.domain.utils.enums.DocumentType.NIT)
+                    .build();
+        } else {
+            type = identityDocumentTypePersistencePort.findById(providedTypeId);
+        }
         LocalDateTime now = LocalDateTime.now();
 
         User existingUser = userPersistencePort.findByIdentityDocument(user.getIdentityDocument());

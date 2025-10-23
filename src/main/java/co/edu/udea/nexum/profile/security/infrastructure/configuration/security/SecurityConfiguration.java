@@ -47,6 +47,9 @@ public class SecurityConfiguration {
             // Authentication
             "/v1/home",
             AUTH_PATH,
+
+            // Allow identity document types service endpoint (public access needed for FEIGN calls or proxies)
+            "/nexum/v1/identity-document-types/**",
     };
 
     @Bean

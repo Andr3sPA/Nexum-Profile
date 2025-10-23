@@ -41,3 +41,4 @@ public class UserRequest implements BaseRequest {
     @Past(message = BIRTHDATE_MUST_BE_PAST_MESSAGE)
     private LocalDate birthdate;
 }
+

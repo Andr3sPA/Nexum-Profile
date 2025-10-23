@@ -5,10 +5,13 @@ import co.edu.udea.nexum.profile.common.domain.model.Model;
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.common.domain.utils.contracts.BaseBuilder;
 import co.edu.udea.nexum.profile.user.domain.model.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Setter
+@Getter
 @Generated
 public class Auth implements Model<UUID>, AuditableModel {
     private UUID id;
@@ -115,6 +118,8 @@ public class Auth implements Model<UUID>, AuditableModel {
     public static AuthBuilder builder() {
         return new AuthBuilder();
     }
+
+
 
     public static class AuthBuilder implements BaseBuilder<Auth> {
         private UUID id;

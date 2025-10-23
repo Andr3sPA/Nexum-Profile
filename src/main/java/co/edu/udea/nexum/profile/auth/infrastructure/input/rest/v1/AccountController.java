@@ -41,7 +41,7 @@ public class AccountController {
             @ApiResponse(responseCode = SWAGGER_CODE_NOT_FOUND, description = SWAGGER_FIND_AUTH_NOT_FOUND,
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
-    @PreAuthorize("hasAnyRole('ADMINISTRATIVE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATIVE')")
     @GetMapping(COMMON_ID_PATH)
     public ResponseEntity<AuthResponse> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(authCrudHandler.findById(id));
@@ -56,7 +56,7 @@ public class AccountController {
             @ApiResponse(responseCode = SWAGGER_CODE_FORBIDDEN, description = SWAGGER_UPDATE_AUTH_FORBIDDEN,
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
-    @PreAuthorize("hasAnyRole('ADMINISTRATIVE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATIVE')")
     @PutMapping(COMMON_ID_PATH)
     public ResponseEntity<AuthResponse> updateById(@PathVariable UUID id, @RequestBody AuthRequest request) {
         return ResponseEntity.ok(authCrudHandler.updateById(id, request));
@@ -69,7 +69,7 @@ public class AccountController {
             @ApiResponse(responseCode = SWAGGER_CODE_BAD_REQUEST, description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS,
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
-    @PreAuthorize("hasAnyRole('ADMINISTRATIVE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATIVE')")
     @GetMapping
     public ResponseEntity<PageResponse<AuthResponse>> findAllFiltered(AuthFilterRequest filterRequest, PageQuery query) {
         PaginationRequest pagination = PaginationRequest.build(query);
