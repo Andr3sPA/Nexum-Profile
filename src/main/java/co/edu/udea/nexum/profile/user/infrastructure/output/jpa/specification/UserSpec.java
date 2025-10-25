@@ -259,6 +259,8 @@ public class UserSpec {
         return joinLike(ACADEMIC_EDUCATION_LIST, COUNTRY, value);
     }
 
+
+
     private static <T> Specification<FullUserEntity> equalsSpec(String field, T value) {
         return (root, query, cb) -> value == null ? cb.conjunction() : cb.equal(root.get(field), value);
     }

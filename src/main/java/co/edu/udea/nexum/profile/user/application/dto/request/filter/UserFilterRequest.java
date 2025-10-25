@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -58,4 +59,5 @@ public class UserFilterRequest {
     private String studyName;
     private String academicInstitution;
     private String academicCountry;
+    private List<String> complementaryStudies;
 }

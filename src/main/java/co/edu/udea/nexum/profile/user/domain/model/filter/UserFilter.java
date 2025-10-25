@@ -65,6 +65,7 @@ public class UserFilter {
     private String studyName;
     private String academicInstitution;
     private String academicCountry;
+    private List<String> complementaryStudies;
     private List<Long> programVersionIds;
 
     @Generated
@@ -109,6 +110,7 @@ public class UserFilter {
         this.studyName = builder.studyName;
         this.academicInstitution = builder.academicInstitution;
         this.academicCountry = builder.academicCountry;
+        this.complementaryStudies = builder.complementaryStudies;
         this.programVersionIds = builder.programVersionIds;
     }
 
