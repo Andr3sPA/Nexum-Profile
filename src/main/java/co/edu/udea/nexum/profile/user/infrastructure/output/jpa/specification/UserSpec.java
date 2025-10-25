@@ -2,11 +2,14 @@ package co.edu.udea.nexum.profile.user.infrastructure.output.jpa.specification;
 
 import co.edu.udea.nexum.profile.academic_education.domain.utils.enums.StudyType;
 import co.edu.udea.nexum.profile.auth.domain.utils.enums.RoleName;
+import co.edu.udea.nexum.profile.graduate_participation.infrastructure.output.jpa.entity.GraduateParticipationEntity;
 import co.edu.udea.nexum.profile.user.domain.model.filter.UserFilter;
 import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
 import co.edu.udea.nexum.profile.user.infrastructure.output.jpa.entity.FullUserEntity;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -34,6 +37,7 @@ public class UserSpec {
     public static final String COURSED_PROGRAMS = "coursedPrograms";
     public static final String GRADUATION_YEAR = "graduationYear";
     public static final String INNOVATION_PROCESSES = "innovationProcesses";
+    public static final String GRADUATE_PARTICIPATION = "graduateParticipation";
     public static final String JOB_LIST = "jobs";
     public static final String INSTITUTION_TYPE_ID = "institutionTypeId";
     public static final String JOB_AREA_ID = "jobAreaId";
@@ -50,6 +54,16 @@ public class UserSpec {
     public static final String ID_IDENTITY_DOCUMENT_TYPE = "idIdentityDocumentType";
     public static final String IDENTITY_DOCUMENT = "identityDocument";
     public static final String ID = "id";
+
+    // Graduate Participation fields
+    public static final String WILLING_TO_BE_SPEAKER = "willingToBeSpeaker";
+    public static final String WILLING_TO_BE_PROFESSOR = "willingToBeProfessor";
+    public static final String WILLING_TO_TEACH_NON_FORMAL_EDUCATION = "willingToTeachNonFormalEducation";
+    public static final String WILLING_TO_BE_POSTGRADUATE_STUDENT = "willingToBePostgraduateStudent";
+    public static final String WILLING_TO_BE_NON_FORMAL_STUDENT = "willingToBeNonFormalStudent";
+    public static final String WILLING_TO_BE_GRADUATE_REPRESENTATIVE = "willingToBeGraduateRepresentative";
+    public static final String WILLING_TO_ATTEND_ALUMNI_MEETINGS = "willingToAttendAlumniMeetings";
+    public static final String WILLING_TO_PARTICIPATE_IN_ALUMNI_ACTIVITIES = "willingToParticipateInAlumniActivities";
 
     private UserSpec() {
         throw new IllegalStateException("Utility class");
@@ -89,7 +103,15 @@ public class UserSpec {
                 .and(hasAcademicStudyType(filter.getStudyType()))
                 .and(hasAcademicStudyNameLike(filter.getStudyName()))
                 .and(hasAcademicInstitutionLike(filter.getAcademicInstitution()))
-                .and(hasAcademicCountryLike(filter.getAcademicCountry()));
+                .and(hasAcademicCountryLike(filter.getAcademicCountry()))
+                .and(hasWillingToBeSpeaker(filter.getWillingToBeSpeaker()))
+                .and(hasWillingToBeProfessor(filter.getWillingToBeProfessor()))
+                .and(hasWillingToTeachNonFormalEducation(filter.getWillingToTeachNonFormalEducation()))
+                .and(hasWillingToBePostgraduateStudent(filter.getWillingToBePostgraduateStudent()))
+                .and(hasWillingToBeNonFormalStudent(filter.getWillingToBeNonFormalStudent()))
+                .and(hasWillingToBeGraduateRepresentative(filter.getWillingToBeGraduateRepresentative()))
+                .and(hasWillingToAttendAlumniMeetings(filter.getWillingToAttendAlumniMeetings()))
+                .and(hasWillingToParticipateInAlumniActivities(filter.getWillingToParticipateInAlumniActivities()));
     }
 
     // Métodos privados por cada filtro
@@ -257,6 +279,59 @@ public class UserSpec {
 
     private static Specification<FullUserEntity> hasAcademicCountryLike(String value) {
         return joinLike(ACADEMIC_EDUCATION_LIST, COUNTRY, value);
+    }
+
+    // Graduate Participation
+    private static Specification<FullUserEntity> hasWillingToBeSpeaker(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_BE_SPEAKER, value);
+    }
+
+    private static Specification<FullUserEntity> hasWillingToBeProfessor(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_BE_PROFESSOR, value);
+    }
+
+    private static Specification<FullUserEntity> hasWillingToTeachNonFormalEducation(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_TEACH_NON_FORMAL_EDUCATION, value);
+    }
+
+    private static Specification<FullUserEntity> hasWillingToBePostgraduateStudent(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_BE_POSTGRADUATE_STUDENT, value);
+    }
+
+    private static Specification<FullUserEntity> hasWillingToBeNonFormalStudent(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_BE_NON_FORMAL_STUDENT, value);
+    }
+
+    private static Specification<FullUserEntity> hasWillingToBeGraduateRepresentative(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_BE_GRADUATE_REPRESENTATIVE, value);
+    }
+
+    private static Specification<FullUserEntity> hasWillingToAttendAlumniMeetings(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_ATTEND_ALUMNI_MEETINGS, value);
+    }
+
+    private static Specification<FullUserEntity> hasWillingToParticipateInAlumniActivities(Boolean value) {
+        return booleanParticipationFilter(WILLING_TO_PARTICIPATE_IN_ALUMNI_ACTIVITIES, value);
+    }
+
+    private static Specification<FullUserEntity> booleanParticipationFilter(String fieldName, Boolean value) {
+        return (root, query, cb) -> {
+            if (value == null) {
+                return cb.conjunction(); // No filtering when unspecified
+            }
+
+            // Create a subquery to check if user has graduate participation with the specified field value
+            Subquery<Long> subquery = query.subquery(Long.class);
+            Root<GraduateParticipationEntity> participationRoot = subquery.from(GraduateParticipationEntity.class);
+
+            subquery.select(cb.literal(1L))
+                    .where(cb.and(
+                            cb.equal(participationRoot.get("user").get("id"), root.get("id")),
+                            cb.equal(participationRoot.get(fieldName), value)
+                    ));
+
+            return cb.exists(subquery);
+        };
     }
 
 

@@ -60,4 +60,14 @@ public class UserFilterRequest {
     private String academicInstitution;
     private String academicCountry;
     private List<String> complementaryStudies;
+
+    // Graduate Participation
+    private Boolean willingToBeSpeaker;
+    private Boolean willingToBeProfessor;
+    private Boolean willingToTeachNonFormalEducation;
+    private Boolean willingToBePostgraduateStudent;
+    private Boolean willingToBeNonFormalStudent;
+    private Boolean willingToBeGraduateRepresentative;
+    private Boolean willingToAttendAlumniMeetings;
+    private Boolean willingToParticipateInAlumniActivities;
 }

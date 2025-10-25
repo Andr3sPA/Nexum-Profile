@@ -93,6 +93,14 @@ public class UserJpaAdapter extends BaseCrudAdapterImpl<UUID, User, UserEntity> 
                 .studyName(filter.getStudyName())
                 .academicInstitution(filter.getAcademicInstitution())
                 .academicCountry(filter.getAcademicCountry())
+                .willingToBeSpeaker(filter.getWillingToBeSpeaker())
+                .willingToBeProfessor(filter.getWillingToBeProfessor())
+                .willingToTeachNonFormalEducation(filter.getWillingToTeachNonFormalEducation())
+                .willingToBePostgraduateStudent(filter.getWillingToBePostgraduateStudent())
+                .willingToBeNonFormalStudent(filter.getWillingToBeNonFormalStudent())
+                .willingToBeGraduateRepresentative(filter.getWillingToBeGraduateRepresentative())
+                .willingToAttendAlumniMeetings(filter.getWillingToAttendAlumniMeetings())
+                .willingToParticipateInAlumniActivities(filter.getWillingToParticipateInAlumniActivities())
                 .programVersionIds(filter.getProgramVersionIds())
                 .build();
 

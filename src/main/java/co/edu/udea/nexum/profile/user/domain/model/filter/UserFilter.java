@@ -66,6 +66,17 @@ public class UserFilter {
     private String academicInstitution;
     private String academicCountry;
     private List<String> complementaryStudies;
+
+    // Graduate Participation
+    private Boolean willingToBeSpeaker;
+    private Boolean willingToBeProfessor;
+    private Boolean willingToTeachNonFormalEducation;
+    private Boolean willingToBePostgraduateStudent;
+    private Boolean willingToBeNonFormalStudent;
+    private Boolean willingToBeGraduateRepresentative;
+    private Boolean willingToAttendAlumniMeetings;
+    private Boolean willingToParticipateInAlumniActivities;
+
     private List<Long> programVersionIds;
 
     @Generated
@@ -111,6 +122,14 @@ public class UserFilter {
         this.academicInstitution = builder.academicInstitution;
         this.academicCountry = builder.academicCountry;
         this.complementaryStudies = builder.complementaryStudies;
+        this.willingToBeSpeaker = builder.willingToBeSpeaker;
+        this.willingToBeProfessor = builder.willingToBeProfessor;
+        this.willingToTeachNonFormalEducation = builder.willingToTeachNonFormalEducation;
+        this.willingToBePostgraduateStudent = builder.willingToBePostgraduateStudent;
+        this.willingToBeNonFormalStudent = builder.willingToBeNonFormalStudent;
+        this.willingToBeGraduateRepresentative = builder.willingToBeGraduateRepresentative;
+        this.willingToAttendAlumniMeetings = builder.willingToAttendAlumniMeetings;
+        this.willingToParticipateInAlumniActivities = builder.willingToParticipateInAlumniActivities;
         this.programVersionIds = builder.programVersionIds;
     }
 
