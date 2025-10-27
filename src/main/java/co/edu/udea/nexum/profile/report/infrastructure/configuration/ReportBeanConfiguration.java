@@ -12,15 +12,13 @@ import org.springframework.context.annotation.Configuration;
 public class ReportBeanConfiguration {
 
     @Bean
-    public ReportServicePort reportServicePort(
+    ReportServicePort reportServicePort(
             UserPersistencePort userPersistencePort,
             ReportGenerationPort reportGenerationPort,
-            ProgramVersionPersistencePort programVersionPersistencePort
-    ) {
+            ProgramVersionPersistencePort programVersionPersistencePort) {
         return new ReportUseCase(
                 userPersistencePort,
                 reportGenerationPort,
-                programVersionPersistencePort
-        );
+                programVersionPersistencePort);
     }
 }

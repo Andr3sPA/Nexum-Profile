@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FeignClientConfiguration {
     @Bean
-    public Logger.Level feignLoggerLevel() {
+    Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
 
     @Bean
-    public QueryMapEncoder feignQueryMapEncoder(FeignQueryBuilder feignQueryBuilder) {
+    QueryMapEncoder feignQueryMapEncoder(FeignQueryBuilder feignQueryBuilder) {
         Feign.builder().queryMapEncoder(feignQueryBuilder);
         return feignQueryBuilder;
     }

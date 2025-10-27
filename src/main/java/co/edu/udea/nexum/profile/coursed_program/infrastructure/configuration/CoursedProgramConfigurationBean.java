@@ -13,15 +13,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CoursedProgramConfigurationBean {
     @Bean
-    public CoursedProgramServicePort coursedProgramServicePort(
+    CoursedProgramServicePort coursedProgramServicePort(
             CoursedProgramPersistencePort coursedProgramPersistencePort,
             UserPersistencePort userPersistencePort,
-            ProgramVersionPersistencePort programVersionPersistencePort
-    ) {
+            ProgramVersionPersistencePort programVersionPersistencePort) {
         return new CoursedProgramUseCase(
                 coursedProgramPersistencePort,
                 userPersistencePort,
-                programVersionPersistencePort
-        );
+                programVersionPersistencePort);
     }
 }

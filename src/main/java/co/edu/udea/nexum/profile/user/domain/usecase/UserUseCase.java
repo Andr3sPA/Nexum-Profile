@@ -14,6 +14,7 @@ import co.edu.udea.nexum.profile.contact_information.domain.model.ContactInforma
 import co.edu.udea.nexum.profile.coursed_program.domain.model.CoursedProgram;
 import co.edu.udea.nexum.profile.coursed_program.domain.model.aggregate.FullProgramVersion;
 import co.edu.udea.nexum.profile.coursed_program.domain.spi.ProgramVersionPersistencePort;
+import co.edu.udea.nexum.profile.job.domain.model.Job;
 import co.edu.udea.nexum.profile.user.domain.api.UserServicePort;
 import co.edu.udea.nexum.profile.user.domain.model.IdentityDocumentType;
 import co.edu.udea.nexum.profile.user.domain.model.User;
@@ -23,6 +24,7 @@ import co.edu.udea.nexum.profile.user.domain.model.filter.UserFilter;
 import co.edu.udea.nexum.profile.user.domain.model.full.FullUser;
 import co.edu.udea.nexum.profile.user.domain.spi.IdentityDocumentTypePersistencePort;
 import co.edu.udea.nexum.profile.user.domain.spi.UserPersistencePort;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.function.Function;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 import static co.edu.udea.nexum.profile.common.domain.utils.functions.CommonHelpers.replaceIfNotNull;
 import static co.edu.udea.nexum.profile.user.domain.utils.constants.UserConstants.*;
 
+@Slf4j
 public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements UserServicePort {
     private final UserPersistencePort userPersistencePort;
     private final IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort;
@@ -43,8 +46,7 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
             IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort,
             AuthenticationSecurityPort authenticationSecurityPort,
             ProgramVersionPersistencePort programVersionPersistencePort,
-            AuthPersistencePort authPersistencePort
-    ) {
+            AuthPersistencePort authPersistencePort) {
         this.userPersistencePort = userPersistencePort;
         this.identityDocumentTypePersistencePort = identityDocumentTypePersistencePort;
         this.authenticationSecurityPort = authenticationSecurityPort;
@@ -55,7 +57,8 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
     @Override
     public User findById(UUID uuid) {
         User user = super.findById(uuid);
-        IdentityDocumentType type = identityDocumentTypePersistencePort.findById(user.getIdentityDocumentType().getId());
+        IdentityDocumentType type = identityDocumentTypePersistencePort
+                .findById(user.getIdentityDocumentType().getId());
         user.setIdentityDocumentType(type);
         return user;
     }
@@ -72,7 +75,8 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
 
     @Override
     protected User loadAssociations(User user) {
-        IdentityDocumentType type = identityDocumentTypePersistencePort.findById(user.getIdentityDocumentType().getId());
+        IdentityDocumentType type = identityDocumentTypePersistencePort
+                .findById(user.getIdentityDocumentType().getId());
         user.setIdentityDocumentType(type);
         return user;
     }
@@ -95,7 +99,8 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
     protected void validateEntity(UUID currentId, User user) {
         User existingByDocument = userPersistencePort.findByIdentityDocument(user.getIdentityDocument());
         if (existingByDocument != null && !existingByDocument.getId().equals(currentId))
-            throw new EntityAlreadyExistsException(getModelClassName(), IDENTITY_DOCUMENT_ATTRIBUTE, user.getIdentityDocument());
+            throw new EntityAlreadyExistsException(getModelClassName(), IDENTITY_DOCUMENT_ATTRIBUTE,
+                    user.getIdentityDocument());
     }
 
     @Override
@@ -131,12 +136,16 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
         List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
         Map<Long, FullProgramVersion> programVersionMap = programVersions.stream()
                 .collect(Collectors.toMap(FullProgramVersion::getId, Function.identity()));
-        List<FullProgramVersion> objectiveVersions = programVersionPersistencePort.findAll().stream()
-                .filter(version -> programVersionFilterByProgramId(filter, version))
-                .toList();
-        filter.setProgramVersionIds(objectiveVersions.stream()
-                .map(FullProgramVersion::getId)
-                .toList());
+        log.info("ProgramIds: {}", filter.getProgramIds() == null ? "null" : Arrays.toString(filter.getProgramIds()));
+        if (filter.getProgramIds() != null && filter.getProgramIds().length > 0) {
+            List<FullProgramVersion> objectiveVersions = programVersionPersistencePort.findAll().stream()
+                    .filter(version -> Arrays.stream(filter.getProgramIds())
+                            .anyMatch(version.getProgram().getId()::equals))
+                    .toList();
+            filter.setProgramVersionIds(objectiveVersions.stream()
+                    .map(FullProgramVersion::getId)
+                    .toList());
+        }
 
         DomainPage<FullUser> page = userPersistencePort.findAllFiltered(filter, paginationData);
         List<BasicUser> basicUsers = page.getContent().stream()
@@ -153,10 +162,6 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .build();
     }
 
-    private boolean programVersionFilterByProgramId(UserFilter filter, FullProgramVersion version) {
-        return Objects.equals(version.getProgram().getId(), filter.getProgramId());
-    }
-
     private BasicUser parseFull2Basic(FullUser user, Map<Long, FullProgramVersion> catalog) {
         ContactInformation current = Optional.ofNullable(user.getContactInformationList())
                 .orElseGet(List::of).stream()
@@ -170,6 +175,21 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .orElse(DEFAULT_NULL_AUTH)
                 .getRole()
                 .getName();
+
+        Integer graduationYear = Optional.ofNullable(user.getCoursedPrograms())
+                .orElseGet(List::of).stream()
+                .filter(Objects::nonNull)
+                .mapToInt(CoursedProgram::getGraduationYear)
+                .max()
+                .orElse(0);
+
+        String company = Optional.ofNullable(user.getJobs())
+                .orElseGet(List::of).stream()
+                .filter(Objects::nonNull)
+                .filter(Job::getCurrentJob)
+                .findFirst()
+                .map(Job::getCompanyName)
+                .orElse(null);
 
         return BasicUser.builder()
                 .id(user.getId())
@@ -185,15 +205,18 @@ public class UserUseCase extends AuditableCrudUseCase<UUID, User> implements Use
                 .country(current.getCountry())
                 .city(current.getCity())
                 .role(roleName)
+                .graduationYear(graduationYear)
+                .lastUpdateDate(user.getLastUpdate())
+                .company(company)
                 .build();
     }
-
 
     private List<BasicProgram> getBasicPrograms(Map<Long, FullProgramVersion> catalog, List<CoursedProgram> versions) {
         return versions.stream()
                 .map(version -> {
                     FullProgramVersion item = catalog.get(version.getProgramVersion().getId());
-                    if (item == null || item.getProgram() == null) return null;
+                    if (item == null || item.getProgram() == null)
+                        return null;
                     return BasicProgram.builder()
                             .code(item.getProgram().getCode())
                             .name(item.getProgram().getName())

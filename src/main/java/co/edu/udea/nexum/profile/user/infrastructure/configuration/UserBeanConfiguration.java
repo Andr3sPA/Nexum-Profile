@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserBeanConfiguration {
     @Bean
-    public UserServicePort userServicePort(
+UserServicePort userServicePort(
             UserPersistencePort userPersistencePort,
             IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort,
             AuthenticationSecurityPort authenticationSecurityPort,
@@ -43,7 +43,7 @@ public class UserBeanConfiguration {
     }
 
     @Bean
-    public DetailedUserServicePort userDetailedServicePort(
+DetailedUserServicePort userDetailedServicePort(
             UserPersistencePort userPersistencePort,
             JobPersistencePort jobPersistencePort,
             ContactInformationPersistencePort contactInformationPersistencePort,

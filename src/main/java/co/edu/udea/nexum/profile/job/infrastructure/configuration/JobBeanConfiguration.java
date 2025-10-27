@@ -11,21 +11,19 @@ import org.springframework.context.annotation.Configuration;
 public class JobBeanConfiguration {
 
     @Bean
-    public JobServicePort jobServicePort(
+    JobServicePort jobServicePort(
             JobPersistencePort jobPersistencePort,
             UserPersistencePort userPersistencePort,
             SalaryRangePersistencePort salaryRangePersistencePort,
             JobDelayPersistencePort jobDelayPersistencePort,
             JobAreaPersistencePort jobAreaPersistencePort,
-            JobInstitutionTypePersistencePort institutionTypePersistencePort
-    ) {
+            JobInstitutionTypePersistencePort institutionTypePersistencePort) {
         return new JobUseCase(
                 jobPersistencePort,
                 userPersistencePort,
                 salaryRangePersistencePort,
                 jobDelayPersistencePort,
                 jobAreaPersistencePort,
-                institutionTypePersistencePort
-        );
+                institutionTypePersistencePort);
     }
 }

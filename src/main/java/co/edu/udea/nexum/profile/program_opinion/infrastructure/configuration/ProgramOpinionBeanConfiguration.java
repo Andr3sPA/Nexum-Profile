@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ProgramOpinionBeanConfiguration {
     @Bean
-    public ProgramOpinionServicePort programOpinionServicePort(
+ProgramOpinionServicePort programOpinionServicePort(
             ProgramOpinionPersistencePort programOpinionPersistencePort,
             CoursedProgramPersistencePort coursedProgramPersistencePort
     ) {

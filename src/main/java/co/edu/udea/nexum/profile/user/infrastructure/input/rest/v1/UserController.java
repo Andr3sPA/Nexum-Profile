@@ -31,7 +31,6 @@ import static co.edu.udea.nexum.profile.user.infrastructure.utils.constants.User
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Generated
 @RestController
 @RequiredArgsConstructor
@@ -42,16 +41,8 @@ public class UserController {
 
     @Operation(summary = SWAGGER_SAVE_USER_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = SWAGGER_USER_SAVED_SUCCESSFULLY,
-                    content = @Content(schema = @Schema(implementation = UserResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_BAD_REQUEST,
-                    description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS,
-                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = SWAGGER_USER_SAVED_SUCCESSFULLY, content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_BAD_REQUEST, description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS, content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))),
     })
     @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATIVE')")
     @PostMapping
@@ -61,16 +52,8 @@ public class UserController {
 
     @Operation(summary = SWAGGER_FIND_USER_BY_ID_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = SWAGGER_USER_FOUND,
-                    content = @Content(schema = @Schema(implementation = UserResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_NOT_FOUND,
-                    description = SWAGGER_USER_WITH_ID_NOT_FOUND,
-                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = SWAGGER_USER_FOUND, content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_NOT_FOUND, description = SWAGGER_USER_WITH_ID_NOT_FOUND, content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @GetMapping(COMMON_ID_PATH)
     public ResponseEntity<UserResponse> findById(@PathVariable UUID id) {
@@ -79,11 +62,7 @@ public class UserController {
 
     @Operation(summary = SWAGGER_FIND_ALL_USERS_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = SWAGGER_FIND_ALL_USERS_SUCCESSFULLY,
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = SWAGGER_FIND_ALL_USERS_SUCCESSFULLY, content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
     })
     @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATIVE')")
     @GetMapping
@@ -93,21 +72,9 @@ public class UserController {
 
     @Operation(summary = SWAGGER_UPDATE_USER_BY_ID_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = SWAGGER_USER_UPDATED_SUCCESSFULLY,
-                    content = @Content(schema = @Schema(implementation = UserResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_NOT_FOUND,
-                    description = SWAGGER_USER_WITH_ID_NOT_FOUND,
-                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_BAD_REQUEST,
-                    description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS,
-                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = SWAGGER_USER_UPDATED_SUCCESSFULLY, content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_NOT_FOUND, description = SWAGGER_USER_WITH_ID_NOT_FOUND, content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_BAD_REQUEST, description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS, content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))),
     })
     @PutMapping(COMMON_ID_PATH)
     public ResponseEntity<UserResponse> updateById(@PathVariable UUID id, @Valid @RequestBody UserRequest request) {
@@ -116,16 +83,8 @@ public class UserController {
 
     @Operation(summary = SWAGGER_DELETE_USER_BY_ID_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = SWAGGER_USER_DELETED_SUCCESSFULLY,
-                    content = @Content(schema = @Schema(implementation = UserResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_NOT_FOUND,
-                    description = SWAGGER_USER_WITH_ID_NOT_FOUND,
-                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = SWAGGER_USER_DELETED_SUCCESSFULLY, content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_NOT_FOUND, description = SWAGGER_USER_WITH_ID_NOT_FOUND, content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @PreAuthorize("hasAnyRole('ADMIN', 'ADMINISTRATIVE')")
     @DeleteMapping(COMMON_ID_PATH)
@@ -140,58 +99,33 @@ public class UserController {
 
     @Operation(summary = SWAGGER_FIND_ALL_USERS_FILTERED_SUMMARY)
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = SWAGGER_FIND_ALL_USERS_FILTERED_SUCCESSFULLY,
-                    content = @Content(schema = @Schema(implementation = BasicUserResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_BAD_REQUEST,
-                    description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS,
-                    content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = SWAGGER_FIND_ALL_USERS_FILTERED_SUCCESSFULLY, content = @Content(schema = @Schema(implementation = BasicUserResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_BAD_REQUEST, description = SWAGGER_ERROR_VALIDATIONS_DO_NOT_PASS, content = @Content(schema = @Schema(implementation = ValidationExceptionResponse.class))),
     })
-    @PreAuthorize("hasAnyRole('DEAN', 'ADMINISTRATIVE','EMPLOYER')")
+    @PreAuthorize("hasAnyRole('DEAN','ADMIN','ADMINISTRATIVE','EMPLOYER')")
     @GetMapping(USER_CONTROLLER_FILTER_PATH)
     public ResponseEntity<?> findAllFiltered(
             UserFilterRequest filterRequest,
-            PageQuery query
-    ) {
+            PageQuery query) {
         PaginationRequest paginationRequest = PaginationRequest.build(query);
         return ResponseEntity.ok(userHandler.findAllFiltered(filterRequest, paginationRequest));
     }
 
     @Operation(summary = "Get authenticated user's basic profile")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = "Authenticated user basic profile found",
-                    content = @Content(schema = @Schema(implementation = BasicUserResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_NOT_FOUND,
-                    description = "Authenticated user not found",
-                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = "Authenticated user basic profile found", content = @Content(schema = @Schema(implementation = BasicUserResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_NOT_FOUND, description = "Authenticated user not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @GetMapping("/me/basic")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<BasicUserResponse> getAuthenticatedUserBasic() {
         return ResponseEntity.ok(userHandler.findAuthenticatedUserBasic());
     }
-    
+
     @Operation(summary = "Get user basic profile by auth ID")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_OK,
-                    description = "User basic profile found",
-                    content = @Content(schema = @Schema(implementation = BasicUserResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = SWAGGER_CODE_NOT_FOUND,
-                    description = "User not found",
-                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-            ),
+            @ApiResponse(responseCode = SWAGGER_CODE_OK, description = "User basic profile found", content = @Content(schema = @Schema(implementation = BasicUserResponse.class))),
+            @ApiResponse(responseCode = SWAGGER_CODE_NOT_FOUND, description = "User not found", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @GetMapping("/basic")
     public ResponseEntity<BasicUserResponse> getUserBasicByAuthId(@RequestParam UUID authId) {

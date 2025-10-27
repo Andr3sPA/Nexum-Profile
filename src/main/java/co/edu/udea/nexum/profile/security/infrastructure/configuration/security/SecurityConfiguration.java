@@ -53,7 +53,7 @@ public class SecurityConfiguration {
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         HttpSecurity httpSecurity = http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(config -> config.configurationSource(corsConfigurationSource()))

@@ -29,7 +29,7 @@ import static co.edu.udea.nexum.profile.common.infrastructure.utils.constants.Co
 public class SecurityBeanConfiguration {
     // Security
     @Bean
-    public PasswordEncoder passwordEncoder() {
+PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -63,7 +63,7 @@ public class SecurityBeanConfiguration {
     }
 
     @Bean
-    public SecurityHelper.SecurityHelperConfigurator securityHelperInitializer(
+SecurityHelper.SecurityHelperConfigurator securityHelperInitializer(
             AuthenticationSecurityPort authenticationSecurityPort,
             AuthPersistencePort authPersistencePort
     ) {

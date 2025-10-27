@@ -13,13 +13,11 @@ import org.springframework.context.annotation.Configuration;
 public class AcademicEducationConfigurationBean {
 
     @Bean
-    public AcademicEducationServicePort academicEducationServicePort(
+    AcademicEducationServicePort academicEducationServicePort(
             AcademicEducationPersistencePort academicEducationPersistencePort,
-            UserPersistencePort userPersistencePort
-    ) {
+            UserPersistencePort userPersistencePort) {
         return new AcademicEducationUseCase(
                 academicEducationPersistencePort,
-                userPersistencePort
-        );
+                userPersistencePort);
     }
 }

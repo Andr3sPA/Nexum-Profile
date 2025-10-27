@@ -1,6 +1,5 @@
 package co.edu.udea.nexum.profile.auth.infrastructure.output.jpa.repository;
 
-import co.edu.udea.nexum.profile.auth.domain.model.Auth;
 import co.edu.udea.nexum.profile.auth.infrastructure.output.jpa.entity.AuthEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

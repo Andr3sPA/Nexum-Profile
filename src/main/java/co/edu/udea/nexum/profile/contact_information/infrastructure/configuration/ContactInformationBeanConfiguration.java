@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ContactInformationBeanConfiguration {
     @Bean
-    public ContactInformationServicePort contactInformationServicePort(
-            ContactInformationPersistencePort contactInformationPersistencePort
-    ) {
+    ContactInformationServicePort contactInformationServicePort(
+            ContactInformationPersistencePort contactInformationPersistencePort) {
         return new ContactInformationUseCase(
-                contactInformationPersistencePort
-        );
+                contactInformationPersistencePort);
     }
 }

@@ -6,6 +6,7 @@ import co.edu.udea.nexum.profile.common.infrastructure.output.jpa.entity.Auditab
 import co.edu.udea.nexum.profile.common.infrastructure.output.jpa.entity.NexumEntity;
 import co.edu.udea.nexum.profile.contact_information.infrastructure.output.jpa.entity.ContactInformationEntity;
 import co.edu.udea.nexum.profile.coursed_program.infrastructure.output.jpa.entity.CoursedProgramEntity;
+import co.edu.udea.nexum.profile.graduate_participation.infrastructure.output.jpa.entity.GraduateParticipationEntity;
 import co.edu.udea.nexum.profile.innovation_process.infrastructure.output.jpa.entity.InnovationProcessEntity;
 import co.edu.udea.nexum.profile.job.infrastructure.output.jpa.entity.JobEntity;
 import co.edu.udea.nexum.profile.user.domain.utils.enums.Gender;
@@ -90,6 +91,9 @@ public class FullUserEntity implements NexumEntity<UUID>, AuditableNexumEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<InnovationProcessEntity> innovationProcesses;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<GraduateParticipationEntity> graduateParticipationList;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     private AuthEntity auth;

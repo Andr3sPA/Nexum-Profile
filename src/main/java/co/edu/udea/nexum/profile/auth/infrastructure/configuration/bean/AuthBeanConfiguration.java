@@ -20,15 +20,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AuthBeanConfiguration {
     @Bean
-    public AuthServicePort authServicePort(
+    AuthServicePort authServicePort(
             AuthPersistencePort authPersistencePort,
             AuthenticationSecurityPort authenticationSecurityPort,
             RolePersistencePort rolePersistencePort,
             UserPersistencePort userPersistencePort,
             IdentityDocumentTypePersistencePort identityDocumentTypePersistencePort,
             EmailServicePort emailServicePort,
-            PasswordEncoder passwordEncoder
-    ) {
+            PasswordEncoder passwordEncoder) {
         return new AuthUseCase(
                 authPersistencePort,
                 authenticationSecurityPort,
@@ -36,29 +35,24 @@ public class AuthBeanConfiguration {
                 userPersistencePort,
                 identityDocumentTypePersistencePort,
                 emailServicePort,
-                passwordEncoder
-        );
+                passwordEncoder);
     }
 
     @Bean
-    public TokenServicePort tokenServicePort(
+    TokenServicePort tokenServicePort(
             TokenSecurityPort tokenSecurityPort,
-            AuthPersistencePort authPersistencePort
-    ){
+            AuthPersistencePort authPersistencePort) {
         return new TokenUseCase(
                 tokenSecurityPort,
-                authPersistencePort
-        );
+                authPersistencePort);
     }
 
     @Bean
-    public AuthCrudServicePort authCrudServicePort(
+    AuthCrudServicePort authCrudServicePort(
             AuthPersistencePort authPersistencePort,
-            RolePersistencePort rolePersistencePort
-    ) {
+            RolePersistencePort rolePersistencePort) {
         return new AuthCrudUseCase(
                 authPersistencePort,
-                rolePersistencePort
-        );
+                rolePersistencePort);
     }
 }
