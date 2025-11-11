@@ -7,6 +7,8 @@ import co.edu.udea.nexum.profile.coursed_program.domain.model.aggregate.FullProg
 import co.edu.udea.nexum.profile.coursed_program.domain.spi.ProgramVersionPersistencePort;
 import co.edu.udea.nexum.profile.report.domain.api.ReportServicePort;
 import co.edu.udea.nexum.profile.report.domain.model.ReportUser;
+import co.edu.udea.nexum.profile.report.application.dto.response.EducationEmployabilityResponse;
+import co.edu.udea.nexum.profile.report.application.dto.response.ProgramEmployability;
 import co.edu.udea.nexum.profile.report.domain.model.GraduateReport;
 import co.edu.udea.nexum.profile.report.domain.spi.ReportGenerationPort;
 import co.edu.udea.nexum.profile.report.domain.utils.enums.ReportFormat;
@@ -47,6 +49,39 @@ public class ReportUseCase implements ReportServicePort {
     @Override
     public GraduateReport generateReport(UserFilter filter) {
         return buildGraduateReport(filter);
+    }
+
+    @Override
+    public EducationEmployabilityResponse generateEducationEmployabilityAnalysis(UserFilter filter) {
+        filter.setRole(RoleName.GRADUATE);
+        long totalGraduates = userPersistencePort.countGraduates(filter);
+        long employedGraduates = userPersistencePort.countEmployedGraduates(filter);
+
+        List<FullProgramVersion> programVersions = programVersionPersistencePort.findAll();
+        Map<Long, String> programVersionIdToName = programVersions.stream()
+                .collect(Collectors.toMap(FullProgramVersion::getId, pv -> pv.getProgram().getName()));
+
+        List<ProgramEmployability> byProgram = userPersistencePort.countGraduatesAndEmployedByProgram().stream()
+                .map(row -> {
+                    Long programVersionId = (Long) row[0];
+                    Long programTotal = (Long) row[1];
+                    Long programEmployed = (Long) row[2];
+                    String programName = programVersionIdToName.getOrDefault(programVersionId, "Unknown Program");
+                    return ProgramEmployability.builder()
+                            .programName(programName)
+                            .totalGraduates(programTotal)
+                            .employedGraduates(programEmployed)
+                            .employabilityRate(percentage(programEmployed, programTotal))
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return EducationEmployabilityResponse.builder()
+                .totalGraduates(totalGraduates)
+                .employedGraduates(employedGraduates)
+                .employabilityRate(percentage(employedGraduates, totalGraduates))
+                .byProgram(byProgram)
+                .build();
     }
 
     private GraduateReport buildGraduateReport(UserFilter filter) {

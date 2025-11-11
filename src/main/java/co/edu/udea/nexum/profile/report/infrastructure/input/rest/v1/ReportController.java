@@ -2,6 +2,7 @@ package co.edu.udea.nexum.profile.report.infrastructure.input.rest.v1;
 
 import co.edu.udea.nexum.profile.common.domain.utils.annotations.Generated;
 import co.edu.udea.nexum.profile.report.application.dto.request.ReportFilterRequest;
+import co.edu.udea.nexum.profile.report.application.dto.response.EducationEmployabilityResponse;
 import co.edu.udea.nexum.profile.report.application.dto.response.GraduateReportResponse;
 import co.edu.udea.nexum.profile.report.application.handler.ReportHandler;
 import co.edu.udea.nexum.profile.report.domain.utils.enums.ReportFormat;
@@ -70,5 +71,18 @@ public class ReportController {
             ReportFilterRequest filterRequest
     ) {
         return ResponseEntity.ok(reportHandler.generateReport(filterRequest));
+    }
+
+    @Operation(summary = SWAGGER_EDUCATION_EMPLOYABILITY_SUMMARY)
+    @ApiResponse(
+            responseCode = SWAGGER_CODE_OK,
+            description = SWAGGER_EDUCATION_EMPLOYABILITY_SUCCESS,
+            content = @Content(schema = @Schema(implementation = EducationEmployabilityResponse.class))
+    )
+    @GetMapping(REPORT_EDUCATION_EMPLOYABILITY_PATH)
+    public ResponseEntity<EducationEmployabilityResponse> getEducationEmployabilityAnalysis(
+            ReportFilterRequest filterRequest
+    ) {
+        return ResponseEntity.ok(reportHandler.generateEducationEmployabilityAnalysis(filterRequest));
     }
 }

@@ -27,6 +27,10 @@ public class ReportRestConstants {
     public static final String SWAGGER_GENERATE_GRADUATE_REPORT_SUMMARY_JSON = "Obtiene el resumen del reporte de egresados con los filtros entregados";
     public static final String SWAGGER_GENERATE_GRADUATE_REPORT_SUCCESS_JSON = "Resumen generado correctamente";
 
+    // Education employability analysis endpoint
+    public static final String REPORT_EDUCATION_EMPLOYABILITY_PATH = "/education-employability";
+    public static final String SWAGGER_EDUCATION_EMPLOYABILITY_SUMMARY = "Analiza la relación entre nivel educativo y tasa de empleabilidad";
+    public static final String SWAGGER_EDUCATION_EMPLOYABILITY_SUCCESS = "Análisis generado correctamente";
 
     public static final String FORMAT_STRING = "format";
     public static final String STRING = "string";

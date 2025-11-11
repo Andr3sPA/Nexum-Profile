@@ -1,5 +1,6 @@
 package co.edu.udea.nexum.profile.report.domain.api;
 
+import co.edu.udea.nexum.profile.report.application.dto.response.EducationEmployabilityResponse;
 import co.edu.udea.nexum.profile.report.domain.model.GraduateReport;
 import co.edu.udea.nexum.profile.report.domain.utils.enums.ReportFormat;
 import co.edu.udea.nexum.profile.user.domain.model.filter.UserFilter;
@@ -7,4 +8,5 @@ import co.edu.udea.nexum.profile.user.domain.model.filter.UserFilter;
 public interface ReportServicePort {
     byte[] generateGraduateReportFile(UserFilter filter, ReportFormat format);
     GraduateReport generateReport(UserFilter filter);
+    EducationEmployabilityResponse generateEducationEmployabilityAnalysis(UserFilter filter);
 }

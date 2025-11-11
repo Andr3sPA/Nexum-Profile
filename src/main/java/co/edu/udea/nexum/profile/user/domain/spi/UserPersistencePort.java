@@ -17,4 +17,9 @@ public interface UserPersistencePort extends BaseCrudPersistencePort<UUID, User>
     FullUser findFullById(UUID id);
     DomainPage<FullUser> findAllFiltered(UserFilter filter, PaginationData paginationData);
     List<FullUser> findAllFilteredForReport(UserFilter filterRequest);
+    
+    // Optimized methods for education-employability analysis
+    long countGraduates(UserFilter filter);
+    long countEmployedGraduates(UserFilter filter);
+    List<Object[]> countGraduatesAndEmployedByProgram();
 }

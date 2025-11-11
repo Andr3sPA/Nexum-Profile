@@ -1,6 +1,7 @@
 package co.edu.udea.nexum.profile.report.application.handler.impl;
 
 import co.edu.udea.nexum.profile.report.application.dto.request.ReportFilterRequest;
+import co.edu.udea.nexum.profile.report.application.dto.response.EducationEmployabilityResponse;
 import co.edu.udea.nexum.profile.report.application.dto.response.GraduateReportResponse;
 import co.edu.udea.nexum.profile.report.application.handler.ReportHandler;
 import co.edu.udea.nexum.profile.report.application.mapper.request.ReportRequestMapper;
@@ -30,5 +31,11 @@ public class ReportHandlerImpl implements ReportHandler {
         return reportResponseMapper.toResponse(
                 reportServicePort.generateReport(filter)
         );
+    }
+
+    @Override
+    public EducationEmployabilityResponse generateEducationEmployabilityAnalysis(ReportFilterRequest filterRequest) {
+        UserFilter filter = reportRequestMapper.toDomain(filterRequest);
+        return reportServicePort.generateEducationEmployabilityAnalysis(filter);
     }
 }

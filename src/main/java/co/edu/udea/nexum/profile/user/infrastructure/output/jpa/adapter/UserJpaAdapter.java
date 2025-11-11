@@ -5,6 +5,7 @@ import co.edu.udea.nexum.profile.common.domain.utils.pagination.PaginationData;
 import co.edu.udea.nexum.profile.common.infrastructure.output.jpa.adapter.impl.BaseCrudAdapterImpl;
 import co.edu.udea.nexum.profile.common.infrastructure.output.jpa.mapper.BaseEntityMapper;
 import co.edu.udea.nexum.profile.common.infrastructure.output.jpa.mapper.PaginationDataMapper;
+import co.edu.udea.nexum.profile.auth.domain.utils.enums.RoleName;
 import co.edu.udea.nexum.profile.user.domain.model.User;
 import co.edu.udea.nexum.profile.user.domain.model.filter.UserFilter;
 import co.edu.udea.nexum.profile.user.domain.model.full.FullUser;
@@ -146,6 +147,82 @@ public class UserJpaAdapter extends BaseCrudAdapterImpl<UUID, User, UserEntity> 
         return userEntityMapper.toFullDomain(
                 fullUserRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"))
         );
+    }
+
+    @Override
+    public long countGraduates(UserFilter filter) {
+        // Use fast query for education-employability endpoint (role=GRADUATE only)
+        if (filter.getRole() == RoleName.GRADUATE) {
+            return fullUserRepository.countAllGraduates();
+        }
+
+        Specification<FullUserEntity> userSpecification = UserSpec.filterBy(filter);
+        return fullUserRepository.count(userSpecification);
+    }
+
+    @Override
+    public long countEmployedGraduates(UserFilter filter) {
+        // Use fast query for education-employability endpoint (role=GRADUATE only)
+        if (filter.getRole() == RoleName.GRADUATE) {
+            return fullUserRepository.countAllEmployedGraduates();
+        }
+
+        Specification<FullUserEntity> userSpecification = UserSpec.filterBy(filter);
+        List<FullUserEntity> graduates = fullUserRepository.findAll(userSpecification);
+        return graduates.stream()
+                .filter(u -> u.getJobs() != null && u.getJobs().stream().anyMatch(job -> Boolean.TRUE.equals(job.getCurrentJob())))
+                .count();
+    }
+
+    @Override
+    public List<Object[]> countGraduatesAndEmployedByProgram() {
+        return fullUserRepository.countGraduatesAndEmployedByProgram();
+    }
+
+    private boolean isFilterOnlyRoleGraduate(UserFilter filter) {
+        return filter.getRole() == RoleName.GRADUATE &&
+               filter.getIdentityDocument() == null &&
+               filter.getIdentityDocumentTypeId() == null &&
+               filter.getName() == null &&
+               filter.getMiddleName() == null &&
+               filter.getLastname() == null &&
+               filter.getSecondLastname() == null &&
+               filter.getGender() == null &&
+               filter.getBirthdate() == null &&
+               filter.getCompanyName() == null &&
+               filter.getJobCountry() == null &&
+               filter.getPosition() == null &&
+               filter.getRelatedToProgram() == null &&
+               filter.getSalaryRangeId() == null &&
+               filter.getJobDelayId() == null &&
+               filter.getJobAreaId() == null &&
+               filter.getInstitutionTypeId() == null &&
+               filter.getInnovationTypeId() == null &&
+               filter.getInnovationName() == null &&
+               filter.getStartYear() == null &&
+               filter.getEndYear() == null &&
+               (filter.getProgramIds() == null || filter.getProgramIds().length == 0) &&
+               filter.getAddress() == null &&
+               filter.getCountry() == null &&
+               filter.getState() == null &&
+               filter.getCity() == null &&
+               filter.getMobile() == null &&
+               filter.getEmail() == null &&
+               filter.getAcademicEmail() == null &&
+               filter.getWhatsappAuthorization() == null &&
+               filter.getStudyType() == null &&
+               filter.getStudyName() == null &&
+               filter.getAcademicInstitution() == null &&
+               filter.getAcademicCountry() == null &&
+               filter.getWillingToBeSpeaker() == null &&
+               filter.getWillingToBeProfessor() == null &&
+               filter.getWillingToTeachNonFormalEducation() == null &&
+               filter.getWillingToBePostgraduateStudent() == null &&
+               filter.getWillingToBeNonFormalStudent() == null &&
+               filter.getWillingToBeGraduateRepresentative() == null &&
+               filter.getWillingToAttendAlumniMeetings() == null &&
+               filter.getWillingToBeGraduateRepresentative() == null &&
+               (filter.getProgramVersionIds() == null || filter.getProgramVersionIds().isEmpty());
     }
 
     private List<FullUserEntity> applyFuzzySearchFiltering(List<FullUserEntity> entities, List<String> complementaryStudies) {
