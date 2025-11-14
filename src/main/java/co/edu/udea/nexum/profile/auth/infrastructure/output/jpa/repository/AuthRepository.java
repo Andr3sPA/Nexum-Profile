@@ -1,5 +1,6 @@
 package co.edu.udea.nexum.profile.auth.infrastructure.output.jpa.repository;
 
+import co.edu.udea.nexum.profile.auth.domain.utils.enums.RoleName;
 import co.edu.udea.nexum.profile.auth.infrastructure.output.jpa.entity.AuthEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,7 @@ public interface AuthRepository extends JpaRepository<AuthEntity, UUID> {
     Optional<AuthEntity> findByVerificationToken(String token);
 
     Page<AuthEntity> findAll(Specification<AuthEntity> spec, Pageable pageable);
+
+    // Método de conteo por nombre de rol requerido por MetricsController
+    long countByRole_Name(RoleName name);
 }

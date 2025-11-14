@@ -13,4 +13,9 @@ public interface JobRepository extends JpaRepository<JobEntity, Long> {
     Optional<JobEntity> findByUser_IdAndFirstJob(UUID userId, Boolean firstJob);
 
     Optional<JobEntity> findByUser_IdAndCurrentJob(UUID userId, Boolean currentJob);
+
+    // Métodos de conteo necesarios por MetricsController
+    long countByCurrentJobTrue();
+
+    long countByCurrentJobTrueAndRelatedToProgramTrue();
 }
